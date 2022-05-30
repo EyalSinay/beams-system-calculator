@@ -5,6 +5,8 @@ import Beam from "./BeamComponents/Beam";
 const Main = () => {
 
     const beam1 = {
+        name: "beam1",
+        id: 1,
         l: 300,
         supports: {
             pinSupports: [
@@ -38,7 +40,7 @@ const Main = () => {
             <br />
             <br />
             <br />
-            <Beam data={beam1} />
+            <Beam data={beam1} WSvg={800} HSvg={400} />
         </>
     );
 

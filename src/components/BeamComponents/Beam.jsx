@@ -3,10 +3,10 @@ import PinSupport from "./PinSupport";
 import PointLoad from "./PointLoad";
 import DistributedLoads from "./DistributedLoads";
 
-const Beam = ({ data }) => {
+const Beam = ({ data, WSvg, HSvg }) => {
 
-    const W = 800;
-    const H = 400; // !find the biggest load and add it
+    const W = WSvg;
+    const H = HSvg; // !find the biggest load and add it
     const C = 50;
     const X0 = C;
     const Y0 = H / 2;
