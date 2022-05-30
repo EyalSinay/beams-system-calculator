@@ -6,7 +6,7 @@ import DistributedLoads from "./DistributedLoads";
 const Beam = ({ data, WSvg, HSvg }) => {
 
     const W = WSvg;
-    const H = HSvg; // !find the biggest load and add it
+    const H = HSvg; // !find the biggest load and relative it
     const C = 50;
     const X0 = C;
     const Y0 = H / 2;
