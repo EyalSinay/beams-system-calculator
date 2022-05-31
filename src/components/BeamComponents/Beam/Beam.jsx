@@ -1,12 +1,12 @@
 import React from "react";
-import PinSupport from "./PinSupport";
-import RollerSupports from "./RollerSupports";
-import FixedSupports from "./FixedSupports";
-import PointLoad from "./PointLoad";
-import DistributedLoads from "./DistributedLoads";
-import Dimension from "./Dimension";
-import YGrids from "./YGrids";
-import { getMaxLoad, getDimensions } from "../../functions/Beam.functions";
+import PinSupport from "./beam-atoms/PinSupport";
+import RollerSupports from "./beam-atoms/RollerSupports";
+import FixedSupports from "./beam-atoms/FixedSupports";
+import PointLoad from "./beam-atoms/PointLoad";
+import DistributedLoads from "./beam-atoms/DistributedLoads";
+import Dimension from "./beam-atoms/Dimension";
+import YGrids from "../YGrids";
+import { getMaxLoad, getDimensions, getMarksArr } from "../../../services/Beam.functions";
 
 const Beam = ({ data, WSvg, HSvg }) => {
 
@@ -22,6 +22,25 @@ const Beam = ({ data, WSvg, HSvg }) => {
 
     return (
         <svg className="Beam" width={W} height={H} version="1.1" xmlns="eyalsinay@gmail.com">
+
+            <line x1={C} y1={1} x2={W - C} y2={1} stroke="black" strokeWidth={1} />
+            {getMarksArr(data.l).map(num => <g key={`${data.name}-marks-${num}`}>
+                <line
+                    x1={C + num * LRelative}
+                    y1={1}
+                    x2={C + num * LRelative}
+                    y2={4}
+                    stroke="black"
+                    strokeWidth={1}
+                />
+                <text
+                    fontSize={10}
+                    x={C + num * LRelative - 7.5}
+                    y={15}
+                >
+                    {num}
+                </text>
+            </g>)}
 
             <line x1={C} y1={H / 2} x2={W - C} y2={H / 2} stroke="black" strokeWidth={3} />
 

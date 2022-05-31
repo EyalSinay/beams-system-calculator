@@ -16,6 +16,7 @@ export const getMaxLoad = (loads) => {
     return maxLoad;
 }
 
+
 export const getDimensions = (data, withLoads = false) => {
     const newArr = [];
 
@@ -31,7 +32,7 @@ export const getDimensions = (data, withLoads = false) => {
     });
 
     // push all loads position if true:
-    if(withLoads){
+    if (withLoads) {
         data.loads.pointLoads.forEach(pointLoad => {
             newArr.push({ position: pointLoad.position });
         });
@@ -42,10 +43,10 @@ export const getDimensions = (data, withLoads = false) => {
     }
 
     // push start point and end point if not exist:
-    if(!newArr.some(element => element.position === 0)){
+    if (!newArr.some(element => element.position === 0)) {
         newArr.push({ position: 0 });
     }
-    if(!newArr.some(element => element.position === data.l)){
+    if (!newArr.some(element => element.position === data.l)) {
         newArr.push({ position: data.l });
     }
 
@@ -59,5 +60,16 @@ export const getDimensions = (data, withLoads = false) => {
         prevValue = element.position;
     });
 
+    return newArr;
+}
+
+
+export const getMarksArr = (lBeam) => {
+    const skipping = Math.ceil(lBeam / 150) * 5;
+
+    const newArr = [];
+    for (let i = 0; i <= lBeam; i += skipping) {
+        newArr.push(i);
+    }
     return newArr;
 }
