@@ -17,37 +17,39 @@ export const getMaxLoad = (loads) => {
 }
 
 
-export const getDimensions = (data, withLoads = false) => {
+export const getDivision = (data, withLoads = false, withSupports = true) => {
     const newArr = [];
 
-    // push all supports position:
-    data.supports.pinSupports.forEach(pinSupport => {
-        newArr.push({ position: pinSupport.position });
-    });
-    data.supports.rollerSupports.forEach(rollerSupport => {
-        newArr.push({ position: rollerSupport.position });
-    });
-    data.supports.fixedSupports.forEach(fixedSupport => {
-        newArr.push({ position: fixedSupport.position });
-    });
+    // push all supports position if true:
+    if (withSupports) {
+        data.supports.pinSupports.forEach(pinSupport => {
+            newArr.push({ position: pinSupport.position, type: "pinSupport" });
+        });
+        data.supports.rollerSupports.forEach(rollerSupport => {
+            newArr.push({ position: rollerSupport.position, type: "rollerSupport" });
+        });
+        data.supports.fixedSupports.forEach(fixedSupport => {
+            newArr.push({ position: fixedSupport.position, type: "fixedSupport" });
+        });
+    }
 
     // push all loads position if true:
     if (withLoads) {
         data.loads.pointLoads.forEach(pointLoad => {
-            newArr.push({ position: pointLoad.position });
+            newArr.push({ position: pointLoad.position, type: "pointLoad", value: pointLoad.value });
         });
         data.loads.distributedLoads.forEach(distributedLoad => {
-            newArr.push({ position: distributedLoad.position1 });
-            newArr.push({ position: distributedLoad.position2 });
+            newArr.push({ position: distributedLoad.position1, type: "distributedLoad-start", value: distributedLoad.value1 });
+            newArr.push({ position: distributedLoad.position2, type: "distributedLoad-end", value: distributedLoad.value2 });
         });
     }
 
     // push start point and end point if not exist:
     if (!newArr.some(element => element.position === 0)) {
-        newArr.push({ position: 0 });
+        newArr.push({ position: 0, type: "startPoint" });
     }
     if (!newArr.some(element => element.position === data.l)) {
-        newArr.push({ position: data.l });
+        newArr.push({ position: data.l, type: "endPoint" });
     }
 
     // sort:
@@ -59,7 +61,6 @@ export const getDimensions = (data, withLoads = false) => {
         element.dimensionValue = element.position - prevValue;
         prevValue = element.position;
     });
-
     return newArr;
 }
 

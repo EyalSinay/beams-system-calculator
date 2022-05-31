@@ -6,7 +6,7 @@ import PointLoad from "./beam-atoms/PointLoad";
 import DistributedLoads from "./beam-atoms/DistributedLoads";
 import Dimension from "./beam-atoms/Dimension";
 import YGrids from "../YGrids";
-import { getMaxLoad, getDimensions, getMarksArr } from "../../../services/Beam.functions";
+import { getMaxLoad, getDivision, getMarksArr } from "../../../services/Beam.functions";
 
 const Beam = ({ data, WSvg, HSvg }) => {
 
@@ -88,7 +88,7 @@ const Beam = ({ data, WSvg, HSvg }) => {
                 position={fixedSupport.position * LRelative}
             />)}
 
-            {getDimensions(data).map((support, index) => <Dimension
+            {getDivision(data).map((support, index) => <Dimension
                 key={`support-dimension-${index}`}
                 X0={X0}
                 Y0={H - 30}
@@ -98,7 +98,7 @@ const Beam = ({ data, WSvg, HSvg }) => {
             />)}
             <line x1={C} y1={H - 30} x2={W - C} y2={H - 30} stroke="black" strokeWidth={1} />
 
-            {getDimensions(data, true).map((allDimension, index) => <Dimension
+            {getDivision(data, true).map((allDimension, index) => <Dimension
                 key={`allDimension-dimension-${index}`}
                 X0={X0}
                 Y0={H - 60}
@@ -108,7 +108,7 @@ const Beam = ({ data, WSvg, HSvg }) => {
             />)}
             <line x1={C} y1={H - 60} x2={W - C} y2={H - 60} stroke="black" strokeWidth={1} />
 
-            {getDimensions(data, true).map((YGrid, index) => <YGrids
+            {getDivision(data, true).map((YGrid, index) => <YGrids
                 key={`YGrid-${index}`}
                 X0={X0}
                 Y0={0}
