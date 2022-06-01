@@ -51,8 +51,10 @@ const Beam = ({ data, WSvg, HSvg }) => {
                     Y0={Y0}
                     position1={distributedLoad.position1 * LRelative}
                     position2={distributedLoad.position2 * LRelative}
-                    loadValue1={distributedLoad.value1 * PRelative}
-                    loadValue2={distributedLoad.value2 * PRelative}
+                    loadValue1={distributedLoad.value1}
+                    loadValue2={distributedLoad.value2}
+                    loadValue1Relative={distributedLoad.value1 * PRelative}
+                    loadValue2Relative={distributedLoad.value2 * PRelative}
                 />)}
 
             {data.loads.pointLoads.map(pointLoad =>
@@ -62,7 +64,9 @@ const Beam = ({ data, WSvg, HSvg }) => {
                     X0={X0}
                     Y0={Y0}
                     position={pointLoad.position * LRelative}
-                    loadValue={pointLoad.value * PRelative} />)}
+                    loadValue={pointLoad.value}
+                    loadValuePRelative={pointLoad.value * PRelative}
+                />)}
 
             {data.supports.pinSupports.map(pinSupport => <PinSupport
                 key={`support-${pinSupport.name}`}

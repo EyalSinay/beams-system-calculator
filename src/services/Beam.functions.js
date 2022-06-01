@@ -17,19 +17,19 @@ export const getMaxLoad = (loads) => {
 }
 
 
-export const getDivision = (data, withLoads = false, withSupports = true) => {
+export const getDivision = (data, withLoads = false, withSupports = true, withStartEndPoints = true) => {
     const newArr = [];
 
     // push all supports position if true:
     if (withSupports) {
         data.supports.pinSupports.forEach(pinSupport => {
-            newArr.push({ position: pinSupport.position, type: "pinSupport" });
+            newArr.push({ position: pinSupport.position, type: "pinSupports", name: pinSupport.name });
         });
         data.supports.rollerSupports.forEach(rollerSupport => {
-            newArr.push({ position: rollerSupport.position, type: "rollerSupport" });
+            newArr.push({ position: rollerSupport.position, type: "rollerSupports", name: rollerSupport.name });
         });
         data.supports.fixedSupports.forEach(fixedSupport => {
-            newArr.push({ position: fixedSupport.position, type: "fixedSupport" });
+            newArr.push({ position: fixedSupport.position, type: "fixedSupports", name: fixedSupport.name });
         });
     }
 
@@ -44,12 +44,14 @@ export const getDivision = (data, withLoads = false, withSupports = true) => {
         });
     }
 
-    // push start point and end point if not exist:
-    if (!newArr.some(element => element.position === 0)) {
-        newArr.push({ position: 0, type: "startPoint" });
-    }
-    if (!newArr.some(element => element.position === data.l)) {
-        newArr.push({ position: data.l, type: "endPoint" });
+    // push start point and end point if not exist and if true:
+    if (withStartEndPoints) {
+        if (!newArr.some(element => element.position === 0)) {
+            newArr.push({ position: 0, type: "startPoint" });
+        }
+        if (!newArr.some(element => element.position === data.l)) {
+            newArr.push({ position: data.l, type: "endPoint" });
+        }
     }
 
     // sort:
