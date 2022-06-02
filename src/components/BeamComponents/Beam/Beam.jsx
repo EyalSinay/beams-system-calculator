@@ -74,6 +74,8 @@ const Beam = ({ data, WSvg, HSvg }) => {
                 X0={X0}
                 Y0={Y0}
                 position={pinSupport.position * LRelative}
+                reactionY={pinSupport.reactionY}
+                reactionX={pinSupport.reactionX}
             />)}
 
             {data.supports.rollerSupports.map(rollerSupport => <RollerSupports
@@ -82,6 +84,7 @@ const Beam = ({ data, WSvg, HSvg }) => {
                 X0={X0}
                 Y0={Y0}
                 position={rollerSupport.position * LRelative}
+                reactionY={rollerSupport.reactionY}
             />)}
 
             {data.supports.fixedSupports.map(fixedSupport => <FixedSupports
@@ -90,6 +93,8 @@ const Beam = ({ data, WSvg, HSvg }) => {
                 X0={X0}
                 Y0={Y0}
                 position={fixedSupport.position * LRelative}
+                reactionY={fixedSupport.reactionY}
+                reactionX={fixedSupport.reactionX}
             />)}
 
             {getDivision(data).map((support, index) => <Dimension

@@ -7,27 +7,29 @@ import BeamsContext from "../myContext/BeamsContext";
 
 const Main = () => {
     const { beams, setBeams } = useContext(BeamsContext);
+    const CURRENT_INDEX = 1;
 
     useEffect(() => {
         setBeams(prev => {
-            const support = getSupportReactions(beams[1]);
-            prev[1].supports[support[0].type].find(item => item.name = support[0].name).reaction = support[0].reaction;
-            prev[1].supports[support[1].type].find(item => item.name = support[1].name).reaction = support[1].reaction;
-            return prev;
+            const newBeamsArr = [...prev];
+            const supportReactions = getSupportReactions(newBeamsArr[CURRENT_INDEX]);
+            for (let i = 0; i < supportReactions.length; i++) {
+                newBeamsArr[CURRENT_INDEX].supports[supportReactions[i].type].find(item => item.name === supportReactions[i].name).reactionY = supportReactions[0].reactionY;
+            }
+            return newBeamsArr;
         });
-    });
-    console.log(beams);
+    }, []);
+    // console.log(beams);
 
     return (
         <>
-            <BeamSection b={beams[1].b} h={beams[1].h} WHSvg={150} />
+            <BeamSection b={beams[CURRENT_INDEX].b} h={beams[CURRENT_INDEX].h} WHSvg={150} />
             <br />
             <br />
             <br />
-            <Beam data={beams[1]} WSvg={800} HSvg={400} />
+            <Beam data={beams[CURRENT_INDEX]} WSvg={800} HSvg={400} />
         </>
     );
-
 }
 
 export default Main;

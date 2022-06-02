@@ -5,31 +5,26 @@ const myBeams = [
     {
         name: "beam1",
         id: 1,
-        b: 20,
-        h: 40,
-        l: 300,
+        b: 30,
+        h: 80,
+        l: 3,
         supports: {
             pinSupports: [
-                { name: "s1", position: 0 },
-                { name: "s2", position: 75 },
-                { name: "s3", position: 150 },
+                { name: "s1", position: 0, reactionY: 0, reactionX: 0 },
             ],
             rollerSupports: [
-                { name: "s4", position: 175 },
-                { name: "s5", position: 240 },
+                { name: "s2", position: 2.5, reactionY: 0 },
             ],
             fixedSupports: [
-                { name: "s6", position: 300 },
+
             ],
         },
         loads: {
             pointLoads: [
-                { name: "load1", position: 60, value: -100 },
-                { name: "load2", position: 280, value: -50 },
+                { name: "load1", position: 1, value: -5 },
             ],
             distributedLoads: [
-                { name: "load3", position1: 10, position2: 250, value1: -80, value2: -120 },
-                { name: "load4", position1: 30, position2: 230, value1: -60, value2: -40 },
+                { name: "load2", position1: 0, position2: 1, value1: -10, value2: -10 },
             ],
         },
     },
@@ -38,13 +33,13 @@ const myBeams = [
         id: 2,
         b: 20,
         h: 40,
-        l: 500,
+        l: 5,
         supports: {
             pinSupports: [
-                { name: "s1", position: 100 },
+                { name: "s1", position: 1, reactionY: 0, reactionX: 0 },
             ],
             rollerSupports: [
-                { name: "s2", position: 400 },
+                { name: "s2", position: 4, reactionY: 0 },
             ],
             fixedSupports: [
 
@@ -52,10 +47,36 @@ const myBeams = [
         },
         loads: {
             pointLoads: [
-                { name: "load1", position: 300, value: -5 },
+                { name: "load1", position: 3, value: -5 },
             ],
             distributedLoads: [
-                { name: "load2", position1: 0, position2: 500, value1: -10, value2: -10 },
+                { name: "load2", position1: 0, position2: 5, value1: -5, value2: -15 },
+            ],
+        },
+    },
+    {
+        name: "beam3",
+        id: 2,
+        b: 30,
+        h: 60,
+        l: 4,
+        supports: {
+            pinSupports: [
+
+            ],
+            rollerSupports: [
+
+            ],
+            fixedSupports: [
+                { name: "s1", position: 4, reactionY: 0, reactionX: 0 },
+            ],
+        },
+        loads: {
+            pointLoads: [
+                { name: "load1", position: 1, value: -5 },
+            ],
+            distributedLoads: [
+                { name: "load2", position1: 0, position2: 4, value1: -5, value2: -2 },
             ],
         },
     },
@@ -71,4 +92,4 @@ const BeamProvider = ({ children }) => {
     )
 }
 
-export default BeamProvider
+export default BeamProvider;

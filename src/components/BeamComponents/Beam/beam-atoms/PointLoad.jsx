@@ -14,7 +14,7 @@ const PointLoad = ({ X0, Y0, name, position, loadValue, loadValuePRelative }) =>
 
             <line x1={X0 + position} y1={Y0} x2={X0 + position} y2={Y0 + loadValuePRelative} stroke="black" strokeWidth={2} />
 
-            <text fontSize={F_S} x={X0 + position + (F_S / 2) * loadDirection} y={Y0 + 0.5 * loadValuePRelative} transform={`rotate(${90 * loadDirection},${X0 + position + (F_S / 2) * loadDirection},${Y0 + 0.5 * loadValuePRelative})`} >{`${name} = ${loadValue.toFixed(2)}`}</text>
+            <text fontSize={F_S} x={X0 + position + (F_S / 2) * loadDirection} y={Y0 + 0.5 * loadValuePRelative} transform={`rotate(${90 * loadDirection},${X0 + position + (F_S / 2) * loadDirection},${Y0 + 0.5 * loadValuePRelative})`} >{`${name} = ${Math.abs(loadValue).toFixed(2)}`}</text>
         </g>
     );
 

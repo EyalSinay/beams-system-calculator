@@ -1,6 +1,8 @@
 import React from "react";
+import PinReactionY from "./PinReactionY";
+import PinReactionX from "./PinReactionX";
 
-const FixedSupports = ({ X0, Y0, position, name }) => {
+const FixedSupports = ({ X0, Y0, position, name, reactionY, reactionX }) => {
 
     const H = 60;
     const F_S = 15;
@@ -21,6 +23,9 @@ const FixedSupports = ({ X0, Y0, position, name }) => {
             {hatch().map(line => <line key={`support-${name}-${line}`} x1={X0 + position} y1={Y0 - H / 2 + line} x2={X0 + position + (position === 0 ? -7 : 7)} y2={Y0 - H / 2 - 7 + line} stroke="black" strokeWidth={1} />)}
 
             <text fontSize={F_S} x={X0 + position - F_S / 2} y={Y0 + H / 2 + F_S + 5} >{name}</text>
+
+            <PinReactionY X0={X0} Y0={Y0} position={position} H={H / 2} reactionY={reactionY} />
+            <PinReactionX X0={X0} Y0={Y0} position={position} B={H / 2} reactionX={reactionX} />
         </g>
     );
 
