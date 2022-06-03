@@ -76,7 +76,7 @@ const myBeams = [
                 { name: "load1", position: 2, value: -5 },
             ],
             distributedLoads: [
-                { name: "load2", position1: 1, position2: 4, value1: -2, value2: -2 },
+                { name: "load2", position1: 1, position2: 4, value1: -3, value2: -3 },
             ],
         },
     },

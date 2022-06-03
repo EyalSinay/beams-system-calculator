@@ -28,32 +28,35 @@ const setTheValueOfDistributedLoadInStartEveryField = (fieldsArr, distributedLoa
 
 }
 
-const getPath = (fields, xRatio, yRatio) => {
-
-    const getNextValue = (p1, p2, delta, cIntegral) => {
-        let yEnd;
-        if (p1 !== p2) {
-            const DelYX = (p1 - p2) / (0 - delta);
-            yEnd = 0.5 * DelYX * p1 + (0 - DelYX * p1) * p1 + cIntegral;
-        } else {
-            yEnd = p1 * delta;
-        }
-
-        let dx1 = 0 * yEnd;
-        let dy1 = 0 * yEnd;
-        return [dx1, dy1, yEnd];
+const getNextValue = (p1, p2, delta, cIntegral) => {
+    let yEnd;
+    if (p1 !== p2) {
+        const DelYX = (p1 - p2) / (0 - delta);
+        yEnd = 0.5 * DelYX * p1 + (0 - DelYX * p1) * p1 + cIntegral;
+    } else {
+        yEnd = p1 * delta;
     }
 
-    const getVerticalValues = (field) => {
-        if (field.type.includes("Supports")) {
-            console.log(field)
-            return field.reactionY * yRatio;
-        } else if (field.type === "pointLoad") {
-            return field.value * yRatio;
-        } else {
-            return 0;
-        }
+    let dx1 = 0 * yEnd;
+    let dy1 = 0 * yEnd;
+    return [yEnd, dx1, dy1];
+}
+
+const getVerticalValues = (field) => {
+    if (field.type.includes("Supports")) {
+        console.log(field)
+        return field.reactionY;
+    } else if (field.type === "pointLoad") {
+        return field.value;
+    } else {
+        return 0;
     }
+}
+
+export const getShearPath = (beam, xRatio, yRatio) => {
+    const fields = getDivision(beam, true, true, true);
+    setTheValueOfDistributedLoadInStartEveryField(fields, beam.loads.distributedLoads);
+
 
     let cIntegral = 0;
 
@@ -71,10 +74,10 @@ const getPath = (fields, xRatio, yRatio) => {
             fields[i + 1].hasOwnProperty("currentDistributedLoadValue")
             &&
             xEnd !== 0) {
-            [dx1, dy1, yEnd] = getNextValue(fields[i].currentDistributedLoadValue, fields[i + 1].currentDistributedLoadValue, xEnd, cIntegral);
+            [yEnd, dx1, dy1] = getNextValue(fields[i].currentDistributedLoadValue, fields[i + 1].currentDistributedLoadValue, xEnd, cIntegral);
         }
-        path += ` v ${getVerticalValues(fields[i])} q ${dx1 * xRatio} ${dy1 * yRatio} ${xEnd * xRatio} ${yEnd * yRatio}`;
-        cIntegral += yEnd + getVerticalValues(fields[i]);
+        path += ` v ${getVerticalValues(fields[i]) * yRatio} q ${dx1 * xRatio} ${dy1 * yRatio} ${xEnd * xRatio} ${yEnd * yRatio}`;
+        cIntegral += (yEnd + getVerticalValues(fields[i])) * yRatio;
     }
     if (fields[fields.length - 1].type.includes("Supports")) {
         path += ` v ${fields[fields.length - 1].reactionY * yRatio}`;
@@ -85,9 +88,51 @@ const getPath = (fields, xRatio, yRatio) => {
     return path;
 }
 
-export const getShearFunction = (beam, xRatio, yRatio) => {
+export const getShearText = (beam, xRatio, yRatio) => {
     const fields = getDivision(beam, true, true, true);
     setTheValueOfDistributedLoadInStartEveryField(fields, beam.loads.distributedLoads);
-    const path = getPath(fields, xRatio, yRatio);
-    return path;
+
+
+    let cIntegral = 0;
+    let xPrev = 0;
+
+    // <text...
+    const textArr = [];
+    let yEnd = 0;
+    for (let i = 0; i < fields.length - 1; i++) {
+        const text = { x: 0, y: 0, value: 0 };
+        // const xEnd = fields[i + 1].dimensionValue;
+        // if (i > 0
+        //     &&
+        //     fields[i].hasOwnProperty("currentDistributedLoadValue")
+        //     &&
+        //     fields[i + 1].hasOwnProperty("currentDistributedLoadValue")
+        //     &&
+        //     xEnd !== 0) {
+        //     [yEnd] = getNextValue(fields[i].currentDistributedLoadValue, fields[i + 1].currentDistributedLoadValue, xEnd, cIntegral);
+        // }
+        // console.log(fields[i].position)
+        text.x = fields[i].position * xRatio;
+        text.y = yEnd + getVerticalValues(fields[i]) * yRatio;
+        yEnd += text.y;
+        text.value = fields[i].value;
+        // cIntegral += (yEnd + getVerticalValues(fields[i])) * yRatio;
+        textArr.push(text);
+    }
+    const text = { x: 0, y: 0, value: 0 };
+    if (fields[fields.length - 1].type.includes("Supports")) {
+        // const xEnd = fields[fields.length - 1].dimensionValue;
+        text.x = fields[fields.length - 1].position * xRatio;
+        text.y = yEnd + getVerticalValues(fields[fields.length - 1]) * yRatio;
+        text.value = fields[fields.length - 1].reactionY;
+    } else if (fields[fields.length - 1].type === "pointLoad") {
+        // const xEnd = fields[fields.length - 1].dimensionValue;
+        text.x = fields[fields.length - 1].position * xRatio;
+        text.y = yEnd + getVerticalValues(fields[fields.length - 1]) * yRatio;
+        text.value = fields[fields.length - 1].value;
+    }
+    textArr.push(text);
+    console.log(textArr)
+    return textArr;
+
 }
