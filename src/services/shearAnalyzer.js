@@ -29,22 +29,30 @@ const setTheValueOfDistributedLoadInStartEveryField = (fieldsArr, distributedLoa
 }
 
 const getPath = (fields, xRatio, yRatio) => {
-    console.log(fields)
 
     const getNextValue = (p1, p2, delta, cIntegral) => {
         let yEnd;
-        if(p1 !== p2){
-        const DelYX = (p1 - p2) / (0 - delta);
-        yEnd = 0.5 * DelYX * p1 + (0 - DelYX * p1) * p1 + cIntegral;
-    }else{
-        yEnd = p1 * delta;
-    }
-        console.log("yoyoyo", p1, p2, delta, cIntegral)
+        if (p1 !== p2) {
+            const DelYX = (p1 - p2) / (0 - delta);
+            yEnd = 0.5 * DelYX * p1 + (0 - DelYX * p1) * p1 + cIntegral;
+        } else {
+            yEnd = p1 * delta;
+        }
 
-        let dx1 = 0*yEnd;
-        let dy1 = 0*yEnd;
-        console.log("haaaaaaaaaa", dx1, dy1, yEnd);
+        let dx1 = 0 * yEnd;
+        let dy1 = 0 * yEnd;
         return [dx1, dy1, yEnd];
+    }
+
+    const getVerticalValues = (field) => {
+        if (field.type.includes("Supports")) {
+            console.log(field)
+            return field.reactionY * yRatio;
+        } else if (field.type === "pointLoad") {
+            return field.value * yRatio;
+        } else {
+            return 0;
+        }
     }
 
     let cIntegral = 0;
@@ -52,145 +60,27 @@ const getPath = (fields, xRatio, yRatio) => {
     // <path d="M X0 Y0...
     let path = "";
     for (let i = 0; i < fields.length - 1; i++) {
-        if (fields[i].type === "startPoint") {
-            const xEnd = fields[i + 1].dimensionValue;
-            let dx1 = 0;
-            let dy1 = 0;
-            let yEnd = 0;
-            if (i > 0
-                &&
-                fields[i].hasOwnProperty("currentDistributedLoadValue")
-                &&
-                fields[i + 1].hasOwnProperty("currentDistributedLoadValue")
-                &&
-                xEnd !== 0) {
-                [dx1, dy1, yEnd] = getNextValue(fields[i].currentDistributedLoadValue, fields[i + 1].currentDistributedLoadValue, xEnd, cIntegral);
-            }
-            path += ` q ${dx1 * xRatio} ${dy1 * yRatio} ${xEnd * xRatio} ${yEnd * yRatio}`;
-            cIntegral += yEnd;
-        } else if (fields[i].type === "pinSupports") {
-            const xEnd = fields[i + 1].dimensionValue;
-            let dx1 = 0;
-            let dy1 = 0;
-            let yEnd = 0;
-            if (i > 0
-                &&
-                fields[i].hasOwnProperty("currentDistributedLoadValue")
-                &&
-                fields[i + 1].hasOwnProperty("currentDistributedLoadValue")
-                &&
-                xEnd !== 0) {
-                [dx1, dy1, yEnd] = getNextValue(fields[i].currentDistributedLoadValue, fields[i + 1].currentDistributedLoadValue, xEnd, cIntegral);
-            }
-            path += ` v ${fields[i].reactionY * yRatio} q ${dx1 * xRatio} ${dy1 * yRatio} ${xEnd * xRatio} ${yEnd * yRatio}`;
-            cIntegral += yEnd + fields[i].reactionY;
-        } else if (fields[i].type === "rollerSupports") {
-            const xEnd = fields[i + 1].dimensionValue;
-            let dx1 = 0;
-            let dy1 = 0;
-            let yEnd = 0;
-            if (i > 0
-                &&
-                fields[i].hasOwnProperty("currentDistributedLoadValue")
-                &&
-                fields[i + 1].hasOwnProperty("currentDistributedLoadValue")
-                &&
-                xEnd !== 0) {
-                [dx1, dy1, yEnd] = getNextValue(fields[i].currentDistributedLoadValue, fields[i + 1].currentDistributedLoadValue, xEnd, cIntegral);
-            }
-            path += ` v ${fields[i].reactionY * yRatio} q ${dx1 * xRatio} ${dy1 * yRatio} ${xEnd * xRatio} ${yEnd * yRatio}`;
-            cIntegral += yEnd + fields[i].reactionY;
-        } else if (fields[i].type === "fixedSupports") {
-            const xEnd = fields[i + 1].dimensionValue;
-            let dx1 = 0;
-            let dy1 = 0;
-            let yEnd = 0;
-            if (i > 0
-                &&
-                fields[i].hasOwnProperty("currentDistributedLoadValue")
-                &&
-                fields[i + 1].hasOwnProperty("currentDistributedLoadValue")
-                &&
-                xEnd !== 0) {
-                [dx1, dy1, yEnd] = getNextValue(fields[i].currentDistributedLoadValue, fields[i + 1].currentDistributedLoadValue, xEnd, cIntegral);
-            }
-            path += ` v ${fields[i].reactionY * yRatio} q ${dx1 * xRatio} ${dy1 * yRatio} ${xEnd * xRatio} ${yEnd * yRatio}`;
-            cIntegral += yEnd + fields[i].reactionY;
-        } else if (fields[i].type === "pointLoad") {
-            console.log("meeeeeeeeeeee",cIntegral)
-
-            const xEnd = fields[i + 1].dimensionValue;
-            let dx1 = 0;
-            let dy1 = 0;
-            let yEnd = 0;
-            if (i > 0
-                &&
-                fields[i].hasOwnProperty("currentDistributedLoadValue")
-                &&
-                fields[i + 1].hasOwnProperty("currentDistributedLoadValue")
-                &&
-                xEnd !== 0) {
-                [dx1, dy1, yEnd] = getNextValue(fields[i].currentDistributedLoadValue, fields[i + 1].currentDistributedLoadValue, xEnd, cIntegral);
-            }
-            path += ` v ${fields[i].value * yRatio} q ${dx1 * xRatio} ${dy1 * yRatio} ${xEnd * xRatio} ${yEnd * yRatio}`;
-            cIntegral += yEnd + fields[i].value;
-        } else if (fields[i].type === "distributedLoad-start") {
-            const xEnd = fields[i + 1].dimensionValue;
-            let dx1 = 0;
-            let dy1 = 0;
-            let yEnd = 0;
-            if (i > 0
-                &&
-                fields[i].hasOwnProperty("currentDistributedLoadValue")
-                &&
-                fields[i + 1].hasOwnProperty("currentDistributedLoadValue")
-                &&
-                xEnd !== 0) {
-                [dx1, dy1, yEnd] = getNextValue(fields[i].currentDistributedLoadValue, fields[i + 1].currentDistributedLoadValue, xEnd, cIntegral);
-            }
-            path += ` q ${dx1 * xRatio} ${dy1 * yRatio} ${xEnd * xRatio} ${yEnd * yRatio}`;
-            cIntegral += yEnd;
-        } else if (fields[i].type === "distributedLoad-end") {
-            const xEnd = fields[i + 1].dimensionValue;
-            let dx1 = 0;
-            let dy1 = 0;
-            let yEnd = 0;
-            if (i > 0
-                &&
-                fields[i].hasOwnProperty("currentDistributedLoadValue")
-                &&
-                fields[i + 1].hasOwnProperty("currentDistributedLoadValue")
-                &&
-                xEnd !== 0) {
-                [dx1, dy1, yEnd] = getNextValue(fields[i].currentDistributedLoadValue, fields[i + 1].currentDistributedLoadValue, xEnd, cIntegral);
-            }
-            path += ` q ${dx1 * xRatio} ${dy1 * yRatio} ${xEnd * xRatio} ${yEnd * yRatio}`;
-            cIntegral += yEnd;
-        } else if (fields[i].type === "endPoint") {
-            const xEnd = fields[i + 1].dimensionValue;
-            let dx1 = 0;
-            let dy1 = 0;
-            let yEnd = 0;
-            if (i > 0
-                &&
-                fields[i].hasOwnProperty("currentDistributedLoadValue")
-                &&
-                fields[i + 1].hasOwnProperty("currentDistributedLoadValue")
-                &&
-                xEnd !== 0) {
-                [dx1, dy1, yEnd] = getNextValue(fields[i].currentDistributedLoadValue, fields[i + 1].currentDistributedLoadValue, xEnd, cIntegral);
-            }
-            path += ` q ${dx1 * xRatio} ${dy1 * yRatio} ${xEnd * xRatio} ${yEnd * yRatio}`;
+        const xEnd = fields[i + 1].dimensionValue;
+        let dx1 = 0;
+        let dy1 = 0;
+        let yEnd = 0;
+        if (i > 0
+            &&
+            fields[i].hasOwnProperty("currentDistributedLoadValue")
+            &&
+            fields[i + 1].hasOwnProperty("currentDistributedLoadValue")
+            &&
+            xEnd !== 0) {
+            [dx1, dy1, yEnd] = getNextValue(fields[i].currentDistributedLoadValue, fields[i + 1].currentDistributedLoadValue, xEnd, cIntegral);
         }
+        path += ` v ${getVerticalValues(fields[i])} q ${dx1 * xRatio} ${dy1 * yRatio} ${xEnd * xRatio} ${yEnd * yRatio}`;
+        cIntegral += yEnd + getVerticalValues(fields[i]);
     }
     if (fields[fields.length - 1].type.includes("Supports")) {
-        console.log(fields[fields.length - 1].reactionY * yRatio)
         path += ` v ${fields[fields.length - 1].reactionY * yRatio}`;
     } else if (fields[fields.length - 1].type === "pointLoad") {
         path += ` v ${fields[fields.length - 1].value * yRatio}`;
     }
-
-    console.log("c",cIntegral)
 
     return path;
 }
