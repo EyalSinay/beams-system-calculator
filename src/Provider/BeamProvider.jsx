@@ -68,15 +68,15 @@ const myBeams = [
 
             ],
             fixedSupports: [
-                { name: "s1", position: 4, reactionY: 0, reactionX: 0 },
+                { name: "s1", position: 4, reactionY: 0, reactionX: 0, reactionM: 0 },
             ],
         },
         loads: {
             pointLoads: [
-                { name: "load1", position: 1, value: -5 },
+                { name: "load1", position: 2, value: -5 },
             ],
             distributedLoads: [
-                { name: "load2", position1: 0, position2: 4, value1: -5, value2: -2 },
+                { name: "load2", position1: 1, position2: 4, value1: -5, value2: -5 },
             ],
         },
     },

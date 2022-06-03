@@ -49,13 +49,13 @@ export const getDivision = (data, withLoads = false, withSupports = true, withSt
     // push all supports position if true:
     if (withSupports) {
         data.supports.pinSupports.forEach(pinSupport => {
-            newArr.push({ position: pinSupport.position, type: "pinSupports", name: pinSupport.name });
+            newArr.push({ ...pinSupport, type: "pinSupports"});
         });
         data.supports.rollerSupports.forEach(rollerSupport => {
-            newArr.push({ position: rollerSupport.position, type: "rollerSupports", name: rollerSupport.name });
+            newArr.push({ ...rollerSupport, type: "rollerSupports"});
         });
         data.supports.fixedSupports.forEach(fixedSupport => {
-            newArr.push({ position: fixedSupport.position, type: "fixedSupports", name: fixedSupport.name });
+            newArr.push({ ...fixedSupport, type: "fixedSupports"});
         });
     }
 
@@ -65,8 +65,18 @@ export const getDivision = (data, withLoads = false, withSupports = true, withSt
             newArr.push({ position: pointLoad.position, type: "pointLoad", value: pointLoad.value });
         });
         data.loads.distributedLoads.forEach(distributedLoad => {
-            newArr.push({ position: distributedLoad.position1, type: "distributedLoad-start", value: distributedLoad.value1 });
-            newArr.push({ position: distributedLoad.position2, type: "distributedLoad-end", value: distributedLoad.value2 });
+            newArr.push({
+                position: distributedLoad.position1,
+                type: "distributedLoad-start",
+                value: distributedLoad.value1,
+                name: distributedLoad.name
+            });
+            newArr.push({
+                position: distributedLoad.position2,
+                type: "distributedLoad-end",
+                value: distributedLoad.value2,
+                name: distributedLoad.name
+            });
         });
     }
 
@@ -81,7 +91,19 @@ export const getDivision = (data, withLoads = false, withSupports = true, withSt
     }
 
     // sort:
-    newArr.sort((a, b) => a.position - b.position);
+    newArr.sort((a, b) => {
+        if(a.position !== b.position){
+            return a.position - b.position;
+        } else {
+            if(a.type !== "distributedLoad-end" && b.type === "distributedLoad-end"){
+                return 1;
+            } else if(a.type === "distributedLoad-end" && b.type !== "distributedLoad-end"){
+                return -1;
+            } else {
+                return 0;
+            }
+        }
+    });
 
     // add dimension values:
     let prevValue = 0;

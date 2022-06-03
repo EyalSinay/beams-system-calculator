@@ -1,4 +1,3 @@
-// import getFields from "./getFields";
 import { getDivision } from "./Beam.functions";
 
 const getLoadsConcentrated = ({ loads }) => {
@@ -43,6 +42,11 @@ const getSupportReactions = (beam) => {
         supports[1].reactionY = -1 * (supports[0].reactionY + sigmaLoads);
     } else {
         supports[0].reactionY = -1 * sigmaLoads;
+        let sigmaLoadsXDelta = 0;
+        for (let i = 0; i < loads.length; i++) {
+            sigmaLoadsXDelta += (loads[i].position - supports[0].position) * loads[i].value;
+        }
+        supports[0].reactionM = sigmaLoadsXDelta;
     }
 
     for (let i = 0; i < supports.length; i++) {

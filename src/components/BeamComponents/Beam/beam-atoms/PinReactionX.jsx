@@ -8,7 +8,7 @@ const PinReactionX = ({ X0, Y0, position, B, reactionX }) => {
     const F_SReaction = 12;
 
     return (
-        <g className="PinReactionX PinReaction">
+        <g className="PinReactionX PinReaction" transform={`translate(${position < 5 ? 60 : 0})`} >
             <polygon points={`${X0 + position - 0.5*B}, ${Y0 + 2*HReaction} ${X0 + position - 0.5*B - WReaction}, ${Y0 + 1.5*HReaction} ${X0 + position - 0.5*B - WReaction}, ${Y0 + 2.5*HReaction}`} />
 
             <line x1={X0 + position - 0.5*B} y1={Y0 + 2*HReaction} x2={X0 + position - 1.5*B} y2={Y0 + 2*HReaction} stroke="black" strokeWidth={2} />

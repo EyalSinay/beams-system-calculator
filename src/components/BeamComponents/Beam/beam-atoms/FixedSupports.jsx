@@ -1,8 +1,9 @@
 import React from "react";
 import PinReactionY from "./PinReactionY";
 import PinReactionX from "./PinReactionX";
+import MomentPower from "./MomentPower";
 
-const FixedSupports = ({ X0, Y0, position, name, reactionY, reactionX }) => {
+const FixedSupports = ({ X0, Y0, position, name, reactionY, reactionX, reactionM }) => {
 
     const H = 60;
     const F_S = 15;
@@ -26,6 +27,9 @@ const FixedSupports = ({ X0, Y0, position, name, reactionY, reactionX }) => {
 
             <PinReactionY X0={X0} Y0={Y0} position={position} H={H / 2} reactionY={reactionY} />
             <PinReactionX X0={X0} Y0={Y0} position={position} B={H / 2} reactionX={reactionX} />
+            <MomentPower X0={X0} Y0={Y0} position={position} reactionM={reactionM} />
+
+
         </g>
     );
 
