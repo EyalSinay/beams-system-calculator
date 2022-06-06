@@ -44,7 +44,6 @@ const getNextValue = (p1, p2, delta, cIntegral) => {
 
 const getVerticalValues = (field) => {
     if (field.type.includes("Supports")) {
-        console.log(field)
         return field.reactionY;
     } else if (field.type === "pointLoad") {
         return field.value;
@@ -91,48 +90,14 @@ export const getShearPath = (beam, xRatio, yRatio) => {
 export const getShearText = (beam, xRatio, yRatio) => {
     const fields = getDivision(beam, true, true, true);
     setTheValueOfDistributedLoadInStartEveryField(fields, beam.loads.distributedLoads);
-
-
-    let cIntegral = 0;
-    let xPrev = 0;
+    console.log(fields)
 
     // <text...
     const textArr = [];
-    let yEnd = 0;
     for (let i = 0; i < fields.length - 1; i++) {
         const text = { x: 0, y: 0, value: 0 };
-        // const xEnd = fields[i + 1].dimensionValue;
-        // if (i > 0
-        //     &&
-        //     fields[i].hasOwnProperty("currentDistributedLoadValue")
-        //     &&
-        //     fields[i + 1].hasOwnProperty("currentDistributedLoadValue")
-        //     &&
-        //     xEnd !== 0) {
-        //     [yEnd] = getNextValue(fields[i].currentDistributedLoadValue, fields[i + 1].currentDistributedLoadValue, xEnd, cIntegral);
-        // }
-        // console.log(fields[i].position)
-        text.x = fields[i].position * xRatio;
-        text.y = yEnd + getVerticalValues(fields[i]) * yRatio;
-        yEnd += text.y;
-        text.value = fields[i].value;
-        // cIntegral += (yEnd + getVerticalValues(fields[i])) * yRatio;
         textArr.push(text);
     }
-    const text = { x: 0, y: 0, value: 0 };
-    if (fields[fields.length - 1].type.includes("Supports")) {
-        // const xEnd = fields[fields.length - 1].dimensionValue;
-        text.x = fields[fields.length - 1].position * xRatio;
-        text.y = yEnd + getVerticalValues(fields[fields.length - 1]) * yRatio;
-        text.value = fields[fields.length - 1].reactionY;
-    } else if (fields[fields.length - 1].type === "pointLoad") {
-        // const xEnd = fields[fields.length - 1].dimensionValue;
-        text.x = fields[fields.length - 1].position * xRatio;
-        text.y = yEnd + getVerticalValues(fields[fields.length - 1]) * yRatio;
-        text.value = fields[fields.length - 1].value;
-    }
-    textArr.push(text);
-    console.log(textArr)
     return textArr;
 
 }

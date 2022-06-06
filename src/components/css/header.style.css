@@ -1,0 +1,5 @@
+.header-container{
+    background-color: skyblue;
+    display: flex;
+    justify-content: center;
+}

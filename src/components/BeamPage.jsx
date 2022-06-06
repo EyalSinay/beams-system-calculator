@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import BeamSection from "./BeamComponents/BeamSection";
 import Beam from "./BeamComponents/Beam/Beam";
 import Shear from "./BeamComponents/Shear/Shear";
@@ -7,9 +7,13 @@ import BeamsContext from "../myContext/BeamsContext";
 import getSupportReactions from "../services/getSupportReactions";
 
 
-const Main = () => {
+const BeamPage = (props) => {
     const { beams, setBeams } = useContext(BeamsContext);
-    const CURRENT_INDEX = 2;
+    const [CURRENT_INDEX, setCURRENT_INDEX] = useState(0);
+
+    useEffect(() => {
+        setCURRENT_INDEX(props.match.params.id - 1);
+    },[CURRENT_INDEX])
 
     useEffect(() => {
         setBeams(prev => {
@@ -24,7 +28,6 @@ const Main = () => {
             return newBeamsArr;
         });
     }, []);
-    // console.log(beams);
 
     return (
         <>
@@ -38,7 +41,7 @@ const Main = () => {
     );
 }
 
-export default Main;
+export default BeamPage;
 
 
 // https://steelapi.timskovjacobsen.com/api

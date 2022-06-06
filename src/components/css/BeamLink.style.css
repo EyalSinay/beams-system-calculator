@@ -1,0 +1,10 @@
+.beam-link-container{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 16px;
+    margin: 16px 0;
+    border: 1px solid black;
+    border-radius: 12px;
+}

@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@1,500&family=Josefin+Sans&display=swap');
+
+body {
+    font-family: 'Cabin', 'Josefin Sans', sans-serif;
+    /* background-color: #063970; */
+    /* color: white; */
+}
+
+a{
+    color: #063970;
+    text-decoration: none;
+    /* background-color: #e28743; */
+}
+
+
+
+/* svg{
+    fill: #e28743;
+    stroke: #e28743;
+} */

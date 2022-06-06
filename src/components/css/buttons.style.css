@@ -1,0 +1,65 @@
+.edit-delete-container, .confirm-cancel-container{
+    display: flex;
+    align-items: center;
+}
+
+.confirm-cancel-container{
+    gap: 24px;
+}
+
+.btn{
+    width: 32px;
+    height: 32px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    transition: opacity 0.5s;
+}
+.btn:hover{
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.add-btn{
+    background-image: url(https://img.icons8.com/ios/50/undefined/add--v1.png);
+    width: 40px;
+    height: 40px;
+}
+.minus-btn{
+    background-image: url(https://img.icons8.com/ios/50/undefined/minus.png);
+    width: 40px;
+    height: 40px;
+}
+.enter-btn{
+    background-image: url(https://img.icons8.com/ios/50/undefined/enter-2.png);
+    width: 60px;
+    height: 60px;
+    margin: 20px 10px;
+}
+.edit-btn{
+    background-image: url(https://img.icons8.com/ios/50/undefined/edit--v1.png);
+    margin: 8px;
+}
+.delete-btn{
+    background-image: url(https://img.icons8.com/dotty/80/undefined/delete-forever.png);
+    margin: 8px;
+    padding: 2px;
+}
+.confirm-btn{
+    background-image: url(https://img.icons8.com/ios/50/undefined/verified-account.png);
+    width: 40px;
+    height: 40px;
+}
+.cancel-btn{
+    background-image: url(https://img.icons8.com/ios/50/undefined/cancel.png);
+    width: 40px;
+    height: 40px;
+}
+
+.status-btn{
+    cursor: pointer;
+    transition: opacity 0.5s;
+}
+.status-btn:hover{
+    opacity: 0.5;
+}

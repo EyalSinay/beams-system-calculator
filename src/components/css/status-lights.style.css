@@ -1,0 +1,37 @@
+.StatusLights{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.light{
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid black;
+    margin: 8px 0px;
+}
+
+.red-light[light="on"]{
+    background-color: red;
+    box-shadow: red 0px 0px 0.25em, red 0px 0.25em 1em;
+}
+.yellow-light[light="on"]{
+    background-color: yellow;
+    box-shadow: yellow 0px 0px 0.25em, yellow 0px 0.25em 1em;
+}
+.green-light[light="on"]{
+    background-color: green;
+    box-shadow: green 0px 0px 0.25em, green 0px 0.25em 1em;
+}
+
+.red-light[light="off"]{
+    background-color: rgba(255, 0, 0, 0.1);
+}
+.yellow-light[light="off"]{
+    background-color: rgba(255, 255, 0, 0.1);
+}
+.green-light[light="off"]{
+    background-color: rgba(0, 128, 0, 0.1);
+}
