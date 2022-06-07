@@ -3,7 +3,7 @@ import React from 'react'
 function ProfileDetails({profile}) {
     return (
         <div className='profile-details-container'>
-            <div className='profile-img' id={`profile-img-${profile.name.slice(0, 3)}`} />
+            <div className={`profile-img profile-img-${profile.name.slice(0, 3)}`} />
             <ul>
                 <li>{`h: ${profile.h} mm`}</li>
                 <li>{`b: ${profile.b} mm`}</li>

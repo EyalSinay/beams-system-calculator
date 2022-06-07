@@ -131,8 +131,104 @@ const myBeams = [
 const BeamProvider = ({ children }) => {
     const [beams, setBeams] = useState(myBeams);
 
+    // ------------------------------------------------------------
+    //Beam Handlers:
+    const handleAddBeam = (newBeam) => setBeams(prevBeams => [...prevBeams, newBeam])
+    const closeBeamsEditMode = () => {
+        const prevBeams = [...beams]
+        prevBeams.forEach(beam => (beam.onEdit = false))
+        setBeams(prevBeams)
+
+    }
+
+    const confirmAddBeam = (newBeam) => {
+        const prevBeams = [...beams];
+        let maxId = 0;
+        prevBeams.forEach(beam => {
+            if (beam.id > maxId) {
+                maxId = beam.id
+            }
+        });
+        prevBeams.push({
+            name: newBeam.newName,
+            id: maxId + 1,
+            material: newBeam.newMaterial,
+            steelProperty: newBeam.steelsData || {},
+            b: newBeam.newDimensionsB,
+            h: newBeam.newDimensionsH,
+            onEdit: false,
+        });
+        setBeams(prevBeams);
+    }
+
+
+    const removeBeamBy = (key, identifier) => {
+        const prevBeams = [...beams]
+        const beamIndex = prevBeams.findIndex(beam => beam[key] === identifier)
+        prevBeams.splice(beamIndex, 1)
+        setBeams(prevBeams)
+    }
+
+
+    const openEditModeBy = (key, identifier) => {
+        const prevBeams = [...beams];
+        prevBeams.forEach(beam => {
+            beam.onEdit = beam[key] === identifier ? true : false
+        });
+        setBeams(prevBeams)
+    }
+    const cancelEditModeBy = (key, identifier) => {
+        const prevBeams = [...beams];
+        prevBeams.forEach(beam => {
+            if (beam[key] === identifier) beam.onEdit = false
+        });
+        setBeams(prevBeams)
+    }
+
+    const confirmEdit = (key, identifier, newBeam) => {
+        const prevBeams = [...beams];
+        const beamIndex = prevBeams.findIndex(beam => beam[key] === identifier);
+        prevBeams[beamIndex] = {
+            ...prevBeams[beamIndex],
+            name: newBeam.newName,
+            material: newBeam.newMaterial,
+            steelProperty: newBeam.steelsData || {},
+            b: newBeam.newDimensionsB,
+            h: newBeam.newDimensionsH,
+            onEdit: false,
+
+        }
+        setBeams(prevBeams);
+    }
+
+    const beamHandlers = () => {
+        return {
+            handleAddBeam,
+            closeBeamsEditMode,
+            confirmAddBeam,
+            removeBeamBy,
+            openEditModeBy,
+            cancelEditModeBy,
+            confirmEdit
+        }
+    }
+    // ------------------------------------------------------------
+
+    // ------------------------------------------------------------
+    // Valid Checks:
+    const isValidName = (newName, outstanding = "") => {
+        const isNameNotExist = beams.some(beam => beam.name === newName && beam.name !== outstanding);
+        return isNameNotExist;
+    }
+
+    const validChecks = {
+        isValidName,
+    }
+    // ------------------------------------------------------------
+
+
     return (
-        <BeamsContext.Provider value={{ beams, setBeams }}>
+        <BeamsContext.Provider value={{ beams, setBeams, beamHandlers, validChecks }}>
             {children}
         </BeamsContext.Provider>
     )

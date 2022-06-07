@@ -1,121 +1,59 @@
 import '../css/main.style.css'
-import React, { useContext, useState } from 'react'
-import BeamsContext from '../../myContext/BeamsContext';
+// import React, { useContext, useState } from 'react'
+// import BeamsContext from '../../myContext/BeamsContext';
 import BeamLink from './BeamLink';
 import ButtonIcon from '../buttons/ButtonIcon';
 import BeamLinkModify from './BeamLinkModify';
 import DeleteMassage from '../messages/DeleteMassage';
+import { useMainService } from '../../services/main/main.services';
 
 function Main() {
-  const { beams, setBeams } = useContext(BeamsContext);
-  const [onAdd, setAdd] = useState(false);
-  const [deleteMessage, setDeleteMessage] = useState(0);
+  const { mainServiceStates, mainServiceHandlers } = useMainService()
 
-  const onAddClick = () => {
-    setAdd(prev => !prev);
-    setBeams(prev => {
-      const newArr = [...prev];
-      newArr.forEach(beam => {
-        beam.onEdit = false;
-      });
-      return newArr;
-    });
-  }
+  const {
+    cancelAddBeam,
+    cancelAlertDeleteMessage,
+    cancelEditMode,
+    confirmAlertDeleteMessage,
+    confirmBeam,
+    confirmEditBeam,
+    onAddClick,
+    onDeleteClick,
+    openEditMode
+  } = mainServiceHandlers
 
-  const cancelAddBeam = () => {
-    setAdd(false);
-  }
-
-  const confirmAddBeam = (newName, newMaterial, steelsData, newDimensionsB, newDimensionsH) => {
-    setBeams(prev => {
-      let maxId = 0;
-      for (let beam of prev){
-        if(beam.id > maxId){
-          maxId = beam.id;
-        }
-      }
-      const newArr = [...prev];
-      newArr.push({
-        name: newName,
-        id: maxId + 1,
-        material: newMaterial,
-        steelProperty: steelsData,
-        b: newDimensionsB,
-        h: newDimensionsH,
-        onEdit: false,
-      });
-      return newArr;
-    });
-    setAdd(false);
-  }
-
-  const cancelDeleteMessage = () => {
-    setDeleteMessage(0);
-  }
-
-  const confirmDeleteMessage = () => {
-    setDeleteMessage(0);
-    setBeams(prev => {
-      const newArr = [...prev];
-      const index = newArr.findIndex(beam => beam.id === deleteMessage);
-      newArr.splice(index, 1);
-      return newArr;
-    })
-  }
-
-  const onEditClick = (id) => {
-    setAdd(false);
-    setBeams(prev => {
-      const newArr = [...prev];
-      newArr.forEach(beam => {
-        if (beam.id === id) {
-          beam.onEdit = true;
-        } else {
-          beam.onEdit = false;
-        }
-      });
-      return newArr;
-    });
-  }
-
-  const cancelEditBeam = (id) => {
-    setBeams(prev => {
-      const newArr = [...prev];
-      newArr.find(beam => beam.id === id).onEdit = false;
-      return newArr;
-    });
-  }
-
-  const confirmEditBeam = (id, newName, newMaterial, steelsData, newDimensionsB, newDimensionsH) => {
-    setBeams(prev => {
-      const newArr = [...prev];
-      const currentBeam = newArr.find(beam => beam.id === id);
-      currentBeam.name = newName;
-      currentBeam.material = newMaterial;
-      currentBeam.steelProperty = steelsData;
-      currentBeam.b = newDimensionsB;
-      currentBeam.h = newDimensionsH;
-      currentBeam.onEdit = false;
-      return newArr;
-    });
-  }
-
-  const onDeleteClick = (id) => {
-    setDeleteMessage(id);
-  }
+  const { alertAfterDeleteMessage, beams, modifyNewBeamMode } = mainServiceStates
 
   const getBeamsLinks = () => {
-    return beams.map(beam => <BeamLink key={beam.id} beam={beam} onEditClick={onEditClick} onDeleteClick={onDeleteClick} onConfirmClick={confirmEditBeam} onCancelClick={cancelEditBeam} />);
+    return beams.map(beam =>
+      <BeamLink
+        key={beam.id}
+        beam={beam}
+        onEditClick={openEditMode}
+        onDeleteClick={onDeleteClick}
+        onConfirmClick={confirmEditBeam}
+        onCancelClick={cancelEditMode}
+      />);
   }
 
   return (
     <div className='main-container'>
-      <ButtonIcon type={onAdd ? "minus" : "add"} onButtonClick={onAddClick} />
-      {onAdd && <BeamLinkModify onCancelClick={cancelAddBeam} onConfirmClick={confirmAddBeam} />}
+      <ButtonIcon
+        type={modifyNewBeamMode ? "minus" : "add"}
+        onButtonClick={onAddClick} />
+      {modifyNewBeamMode
+        && <BeamLinkModify
+          onCancelClick={cancelAddBeam}
+          onConfirmClick={confirmBeam}
+          modifyStatus="add" />}
       {getBeamsLinks()}
-      {deleteMessage !== 0 && <DeleteMassage onBackgroundClick={cancelDeleteMessage} onConfirmClick={confirmDeleteMessage} onCancelClick={cancelDeleteMessage} />}
+      {alertAfterDeleteMessage !== 0
+        && <DeleteMassage
+          onBackgroundClick={cancelAlertDeleteMessage}
+          onConfirmClick={confirmAlertDeleteMessage}
+          onCancelClick={cancelAlertDeleteMessage} />}
     </div>
-  )
+  );
 }
 
 export default Main;

@@ -1,12 +1,32 @@
 .beam-link-modify{
     width: 100%;
-    border: 1px solid black;
     border-radius: 12px;
     padding: 16px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 12px;
+}
+
+.beam-link-modify[data-modify-status="add"]{
+    box-shadow: rgba(0, 255, 0, 0.8) 0px 5px 15px;
+}
+.beam-link-modify[data-modify-status="edit"]{
+    box-shadow: rgba(255, 255, 0, 0.8) 0px 5px 15px;
+}
+.beam-link-modify[data-modify-status="add"]::before{
+    content: "New Beam";
+    color: rgba(0, 255, 0);
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 4px;
+}
+.beam-link-modify[data-modify-status="edit"]::before{
+    content: "Edit Beam";
+    color: rgba(255, 255, 0);
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 4px;
 }
 
 .beam-dimensions-main-container{
@@ -48,21 +68,25 @@ label{
     background-position: center;
     background-size: contain;
 }
-#profile-img-HEA{
+.profile-img-HEA{
     background-image: url(https://www.prontubeam.com/imagenes/Perfiles/HEA.png);
 }
-#profile-img-HEB{
+.profile-img-HEB{
     background-image: url(https://www.prontubeam.com/imagenes/Perfiles/HEB.png);
 }
-#profile-img-HEM{
+.profile-img-HEM{
     background-image: url(https://www.prontubeam.com/imagenes/Perfiles/HEM.png);
 }
-#profile-img-IPE{
+.profile-img-IPE{
     background-image: url(https://www.prontubeam.com/imagenes/Perfiles/IPE.png);
 }
-#profile-img-IPN{
+.profile-img-IPN{
     background-image: url(https://www.prontubeam.com/imagenes/Perfiles/IPN.png);
 }
-#profile-img-UPN{
+.profile-img-UPN{
     background-image: url(https://www.prontubeam.com/imagenes/Perfiles/UPN.png);
+}
+
+.modify-valid-message{
+    color: red;
 }

@@ -26,3 +26,4 @@ yarn-error.log*
 
 # not in use
 getFields.js
+beam-format.js

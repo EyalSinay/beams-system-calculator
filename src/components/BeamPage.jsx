@@ -5,6 +5,7 @@ import Shear from "./BeamComponents/Shear/Shear";
 import BeamsContext from "../myContext/BeamsContext";
 
 import getSupportReactions from "../services/getSupportReactions";
+import getColorBeam from "../services/getColorBeamSection";
 
 
 const BeamPage = (props) => {
@@ -12,8 +13,10 @@ const BeamPage = (props) => {
     const [CURRENT_INDEX, setCURRENT_INDEX] = useState(0);
 
     useEffect(() => {
-        setCURRENT_INDEX(props.match.params.id - 1);
-    },[CURRENT_INDEX])
+        setCURRENT_INDEX(() => {
+            return beams.findIndex(beam => beam.name === props.match.params.name);
+        });
+    },[CURRENT_INDEX]);
 
     useEffect(() => {
         setBeams(prev => {
@@ -31,17 +34,15 @@ const BeamPage = (props) => {
 
     return (
         <>
-            <BeamSection b={beams[CURRENT_INDEX].b} h={beams[CURRENT_INDEX].h} WHSvg={150} />
+            <BeamSection b={beams[CURRENT_INDEX].b} h={beams[CURRENT_INDEX].h} WHSvg={150} fillColor={getColorBeam(beams[CURRENT_INDEX].material)} />
             <br />
             <br />
             <br />
             <Beam data={beams[CURRENT_INDEX]} WSvg={800} HSvg={400} />
+            <br />
             <Shear data={beams[CURRENT_INDEX]} WSvg={800} HSvg={400} />
         </>
     );
 }
 
 export default BeamPage;
-
-
-// https://steelapi.timskovjacobsen.com/api

@@ -1,13 +1,15 @@
 import '../css/Beam-link-modify.style.css'
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import ProfileDetails from '../BeamComponents/ProfileDetails';
 import BeamSection from '../BeamComponents/BeamSection';
 import ButtonIcon from '../buttons/ButtonIcon';
+import BeamsContext from '../../myContext/BeamsContext';
+import getColorBeam from '../../services/getColorBeamSection';
 
 const ignoreCors = "https://nameless-citadel-58066.herokuapp.com/"
 
-function BeamLinkModify({ beam, onConfirmClick, onCancelClick }) {
+function BeamLinkModify({ beam, onConfirmClick, onCancelClick, modifyStatus }) {
   const [beamName, setBeamName] = useState("");
   const nameRef = useRef(null)
   const [beamMaterial, setBeamMaterial] = useState("concrete");
@@ -17,6 +19,8 @@ function BeamLinkModify({ beam, onConfirmClick, onCancelClick }) {
   const [steelsDataError, setSteelsDataError] = useState("");
   const [beamDimensionsB, setBeamDimensionsB] = useState(20);
   const [beamDimensionsH, setBeamDimensionsH] = useState(40);
+  const [validMessage, setValidMessage] = useState("");
+  const { validChecks } = useContext(BeamsContext);
 
   useEffect(() => {
     if (beam && Object.keys(beam).length > 0) {
@@ -25,8 +29,8 @@ function BeamLinkModify({ beam, onConfirmClick, onCancelClick }) {
       setSteelsData(beam.steelProperty);
       setBeamDimensionsB(beam.b);
       setBeamDimensionsH(beam.h);
-      if(beam && Object.keys(beam.steelProperty).length > 0){
-        setProfileType(beam.steelProperty.name.slice(0,3));
+      if (beam && Object.keys(beam.steelProperty).length > 0) {
+        setProfileType(beam.steelProperty.name.slice(0, 3));
       }
     }
   }, []);
@@ -39,7 +43,7 @@ function BeamLinkModify({ beam, onConfirmClick, onCancelClick }) {
         })
         .catch(err => setSteelsDataError(err));
     }
-    if(beam && Object.keys(beam.steelProperty).length > 0){
+    if (beam && Object.keys(beam.steelProperty).length > 0) {
       setProfileName(beam.steelProperty.name);
     }
   }, [profileType])
@@ -47,7 +51,7 @@ function BeamLinkModify({ beam, onConfirmClick, onCancelClick }) {
   const BeamDimensions = () => {
     return (
       <div className="beam-dimensions-main-container">
-        <BeamSection b={beamDimensionsB} h={beamDimensionsH} WHSvg={150} />
+        <BeamSection b={beamDimensionsB} h={beamDimensionsH} WHSvg={150} fillColor={getColorBeam(beamMaterial)} />
         <div className='beam-dimensions-container'>
           <div className="beam-dimensions-b-container">
             <label htmlFor="beam-dimensions-b">b: </label>
@@ -103,16 +107,48 @@ function BeamLinkModify({ beam, onConfirmClick, onCancelClick }) {
     );
   }
 
+  const confirmFunc = () => {
+    if (beamName === "") {
+      nameRef.current.focus();
+      setValidMessage("Set a name for the beam");
+    } else if (validChecks.isValidName(beamName, beam ? beam.name : "")) {
+      nameRef.current.focus();
+      setValidMessage("There is already a beam with this name");
+    } else {
+      const newBeam = {
+        newName: beamName,
+        newMaterial: beamMaterial,
+        steelsData: steelsData[profileName],
+        newDimensionsB: beamDimensionsB,
+        newDimensionsH: beamDimensionsH
+      }
+      if (beam) {
+        onConfirmClick(beam.id, newBeam);
+      } else {
+        onConfirmClick(newBeam);
+      }
+    }
+  }
+
+  const cancelFunc = () => {
+    if (beam) {
+      onCancelClick(beam.id);
+    } else {
+      onCancelClick();
+    }
+  }
+
   if (steelsDataError) {
     <p>Error {steelsDataError}</p>
   }
 
   return (
-    <div className='beam-link-modify'>
+    <div className='beam-link-modify' data-modify-status={modifyStatus}>
       <div className="beam-name-container">
         <label htmlFor="beam-name">Beam name:</label>
         <input ref={nameRef} type="text" id="beam-name" value={beamName} onChange={(e) => setBeamName(e.target.value)} />
       </div>
+        <div className='modify-valid-message'>{validMessage}</div>
       <div className="material-container">
         <label htmlFor="material">Material:</label>
         <select name="material" id="material-selection" value={beamMaterial} onChange={e => setBeamMaterial(e.target.value)}>
@@ -123,24 +159,8 @@ function BeamLinkModify({ beam, onConfirmClick, onCancelClick }) {
       </div>
       {beamMaterial === "steel" ? selectSteelProfile() : BeamDimensions()}
       <div className="confirm-cancel-container">
-        <ButtonIcon type="confirm" onButtonClick={() => {
-          if (beamName === "") {
-            nameRef.current.focus();
-          } else {
-            if (beam) {
-              onConfirmClick(beam.id, beamName, beamMaterial, steelsData[profileName], beamDimensionsB, beamDimensionsH);
-            } else {
-              onConfirmClick(beamName, beamMaterial, steelsData[profileName], beamDimensionsB, beamDimensionsH);
-            }
-          }
-        }} />
-        <ButtonIcon type="cancel" onButtonClick={() => {
-          if (beam) {
-            onCancelClick(beam.id);
-          } else {
-            onCancelClick();
-          }
-        }} />
+        <ButtonIcon type="confirm" onButtonClick={confirmFunc} />
+        <ButtonIcon type="cancel" onButtonClick={cancelFunc} />
       </div>
     </div>
   );
