@@ -5,7 +5,7 @@ import ProfileDetails from '../BeamComponents/ProfileDetails';
 import BeamSection from '../BeamComponents/BeamSection';
 import ButtonIcon from '../buttons/ButtonIcon';
 import BeamsContext from '../../myContext/BeamsContext';
-import getColorBeam from '../../services/getColorBeamSection';
+import {getColorBeam} from '../../services/getImagesSections';
 
 const ignoreCors = "https://nameless-citadel-58066.herokuapp.com/"
 

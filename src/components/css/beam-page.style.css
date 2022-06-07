@@ -1,0 +1,36 @@
+.beam-page-container{
+    /* border: 1px solid black; */
+
+    max-width: 900px;
+    margin: auto;
+}
+
+.beam-details-container{
+    padding: 0 20px 0 60px;
+    display: flex;
+    align-items: center;
+}
+
+.img-status-container{
+    display: flex;
+}
+
+.details-text-container{
+    width: 100%;
+}
+
+.details-text-container h2{
+    text-align: center;
+}
+
+.details-text-sub-container ul{
+    display: grid;
+    grid-template-columns: repeat( auto-fit, minmax(120px, 1fr) );
+}
+
+@media (max-width:500px) {
+    .beam-details-container{
+        padding: 0 20px 0 20px;
+        flex-direction: column;
+    }
+}

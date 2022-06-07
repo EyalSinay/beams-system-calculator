@@ -1,23 +1,12 @@
 import '../css/BeamLink.style.css';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import BeamSection from '../BeamComponents/BeamSection';
 import ButtonIcon from '../buttons/ButtonIcon';
 import StatusLights from '../StatusLights';
 import BeamLinkModify from './BeamLinkModify';
-import getColorBeam from '../../services/getColorBeamSection';
+import getImage from '../../services/getImagesSections';
 
 function BeamLink({ beam, onEditClick, onConfirmClick, onCancelClick, onDeleteClick }) {
-
-    const getImage = () => {
-        if(beam.material === "concrete" || beam.material === "wood"){
-            return <BeamSection b={beam.b} h={beam.h} WHSvg={150} fillColor={getColorBeam(beam.material)} />
-        }else if(beam.material === "steel"){
-            return <div className={`profile-img profile-img-${beam.steelProperty.name.slice(0, 3)}`} /> 
-        }else{
-            return <div>No image</div>
-        }
-    }
 
     if (beam.onEdit) {
         return (
@@ -29,7 +18,7 @@ function BeamLink({ beam, onEditClick, onConfirmClick, onCancelClick, onDeleteCl
         <div className='beam-link-container' id={`${beam.id}-container`}>
             <StatusLights green="on" />
 
-            {getImage()}
+            {getImage(beam)}
             <div className='beam_details'>
                 <div className="details">
                     <h3 className='details__beam-name'>{beam.name}</h3>

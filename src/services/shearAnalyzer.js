@@ -90,7 +90,6 @@ export const getShearPath = (beam, xRatio, yRatio) => {
 export const getShearText = (beam, xRatio, yRatio) => {
     const fields = getDivision(beam, true, true, true);
     setTheValueOfDistributedLoadInStartEveryField(fields, beam.loads.distributedLoads);
-    console.log(fields)
 
     // <text...
     const textArr = [];

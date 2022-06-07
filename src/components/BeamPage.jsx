@@ -1,16 +1,26 @@
-import React, { useContext, useEffect, useState } from "react";
-import BeamSection from "./BeamComponents/BeamSection";
+import './css/beam-page.style.css'
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Beam from "./BeamComponents/Beam/Beam";
 import Shear from "./BeamComponents/Shear/Shear";
 import BeamsContext from "../myContext/BeamsContext";
 
 import getSupportReactions from "../services/getSupportReactions";
-import getColorBeam from "../services/getColorBeamSection";
+import BeamDetails from './BeamDetails';
 
 
 const BeamPage = (props) => {
     const { beams, setBeams } = useContext(BeamsContext);
     const [CURRENT_INDEX, setCURRENT_INDEX] = useState(0);
+    const containerRef = useRef("");
+    const [containerWidth,SetContainerWidth] = useState(0);
+
+    useEffect(()=>{
+        SetContainerWidth(containerRef.current.getBoundingClientRect().width)
+    },[containerWidth]);
+
+    window.onresize = () => {
+        SetContainerWidth(containerRef.current.getBoundingClientRect().width);
+    }
 
     useEffect(() => {
         setCURRENT_INDEX(() => {
@@ -33,15 +43,15 @@ const BeamPage = (props) => {
     }, []);
 
     return (
-        <>
-            <BeamSection b={beams[CURRENT_INDEX].b} h={beams[CURRENT_INDEX].h} WHSvg={150} fillColor={getColorBeam(beams[CURRENT_INDEX].material)} />
+        <div ref={containerRef} className="beam-page-container">
+            <BeamDetails beam={beams[CURRENT_INDEX]}/>
             <br />
             <br />
             <br />
-            <Beam data={beams[CURRENT_INDEX]} WSvg={800} HSvg={400} />
+            <Beam data={beams[CURRENT_INDEX]} WSvg={containerWidth} HSvg={400} />
             <br />
-            <Shear data={beams[CURRENT_INDEX]} WSvg={800} HSvg={400} />
-        </>
+            <Shear data={beams[CURRENT_INDEX]} WSvg={containerWidth} HSvg={400} />
+        </div>
     );
 }
 
