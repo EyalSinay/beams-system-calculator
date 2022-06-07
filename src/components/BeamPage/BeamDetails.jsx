@@ -1,6 +1,6 @@
 import React from 'react'
-import getImage from '../services/getImagesSections'
-import StatusLights from './StatusLights'
+import getImage from '../../services/getImagesSections'
+import StatusLights from '../StatusLights'
 
 
 function BeamDetails({ beam }) {

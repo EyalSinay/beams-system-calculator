@@ -1,11 +1,11 @@
-import './css/beam-page.style.css'
+import '../css/beam-page.style.css'
 import React, { useContext, useEffect, useRef, useState } from "react";
-import Beam from "./BeamComponents/Beam/Beam";
-import Shear from "./BeamComponents/Shear/Shear";
-import BeamsContext from "../myContext/BeamsContext";
-
-import getSupportReactions from "../services/getSupportReactions";
+import Beam from "../BeamComponents/Beam/Beam";
+import Shear from "../BeamComponents/Shear/Shear";
+import BeamsContext from "../../myContext/BeamsContext";
+import getSupportReactions from "../../services/getSupportReactions";
 import BeamDetails from './BeamDetails';
+import BeamCrud from './BeamCrud';
 
 
 const BeamPage = (props) => {
@@ -45,8 +45,7 @@ const BeamPage = (props) => {
     return (
         <div ref={containerRef} className="beam-page-container">
             <BeamDetails beam={beams[CURRENT_INDEX]}/>
-            <br />
-            <br />
+            <BeamCrud />
             <br />
             <Beam data={beams[CURRENT_INDEX]} WSvg={containerWidth} HSvg={400} />
             <br />

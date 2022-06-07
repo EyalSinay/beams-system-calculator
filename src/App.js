@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 import Header from './components/Header.jsx'
 import Menu from './components/Menu.jsx'
 import Main from './components/Main/Main.jsx'
-import BeamPage from './components/BeamPage.jsx'
+import BeamPage from './components/BeamPage/BeamPage'
 import BeamProvider from './Provider/BeamProvider';
 import Footer from './components/Footer';
 
