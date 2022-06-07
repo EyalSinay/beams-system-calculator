@@ -9,7 +9,7 @@ import getColorBeam from '../../services/getColorBeamSection';
 
 const ignoreCors = "https://nameless-citadel-58066.herokuapp.com/"
 
-function BeamLinkModify({ beam, onConfirmClick, onCancelClick, modifyStatus }) {
+function BeamLinkModify({ beam, modifyStatus, onConfirmClick, onCancelClick }) {
   const [beamName, setBeamName] = useState("");
   const nameRef = useRef(null)
   const [beamMaterial, setBeamMaterial] = useState("concrete");
@@ -122,18 +122,18 @@ function BeamLinkModify({ beam, onConfirmClick, onCancelClick, modifyStatus }) {
         newDimensionsB: beamDimensionsB,
         newDimensionsH: beamDimensionsH
       }
-      if (beam) {
+      if (beam && modifyStatus === "edit") {
         onConfirmClick(beam.id, newBeam);
-      } else {
+      } else if (modifyStatus === "add") {
         onConfirmClick(newBeam);
       }
     }
   }
 
   const cancelFunc = () => {
-    if (beam) {
+    if (beam && modifyStatus === "edit") {
       onCancelClick(beam.id);
-    } else {
+    } else if (modifyStatus === "add") {
       onCancelClick();
     }
   }

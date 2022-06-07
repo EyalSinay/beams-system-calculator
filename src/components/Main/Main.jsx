@@ -15,7 +15,7 @@ function Main() {
     cancelAlertDeleteMessage,
     cancelEditMode,
     confirmAlertDeleteMessage,
-    confirmBeam,
+    confirmAddNewBeam,
     confirmEditBeam,
     onAddClick,
     onDeleteClick,
@@ -44,7 +44,7 @@ function Main() {
       {modifyNewBeamMode
         && <BeamLinkModify
           onCancelClick={cancelAddBeam}
-          onConfirmClick={confirmBeam}
+          onConfirmClick={confirmAddNewBeam}
           modifyStatus="add" />}
       {getBeamsLinks()}
       {alertAfterDeleteMessage !== 0

@@ -7,7 +7,7 @@ import StatusLights from '../StatusLights';
 import BeamLinkModify from './BeamLinkModify';
 import getColorBeam from '../../services/getColorBeamSection';
 
-function BeamLink({ beam, onEditClick, onDeleteClick, onConfirmClick, onCancelClick }) {
+function BeamLink({ beam, onEditClick, onConfirmClick, onCancelClick, onDeleteClick }) {
 
     const getImage = () => {
         if(beam.material === "concrete" || beam.material === "wood"){

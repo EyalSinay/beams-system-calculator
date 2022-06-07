@@ -133,12 +133,11 @@ const BeamProvider = ({ children }) => {
 
     // ------------------------------------------------------------
     //Beam Handlers:
-    const handleAddBeam = (newBeam) => setBeams(prevBeams => [...prevBeams, newBeam])
+    const handleAddBeam = (newBeam) => setBeams(prevBeams => [...prevBeams, newBeam]);
     const closeBeamsEditMode = () => {
-        const prevBeams = [...beams]
-        prevBeams.forEach(beam => (beam.onEdit = false))
-        setBeams(prevBeams)
-
+        const prevBeams = [...beams];
+        prevBeams.forEach(beam => (beam.onEdit = false));
+        setBeams(prevBeams);
     }
 
     const confirmAddBeam = (newBeam) => {
@@ -146,7 +145,7 @@ const BeamProvider = ({ children }) => {
         let maxId = 0;
         prevBeams.forEach(beam => {
             if (beam.id > maxId) {
-                maxId = beam.id
+                maxId = beam.id;
             }
         });
         prevBeams.push({
@@ -163,26 +162,26 @@ const BeamProvider = ({ children }) => {
 
 
     const removeBeamBy = (key, identifier) => {
-        const prevBeams = [...beams]
-        const beamIndex = prevBeams.findIndex(beam => beam[key] === identifier)
-        prevBeams.splice(beamIndex, 1)
-        setBeams(prevBeams)
+        const prevBeams = [...beams];
+        const beamIndex = prevBeams.findIndex(beam => beam[key] === identifier);
+        prevBeams.splice(beamIndex, 1);
+        setBeams(prevBeams);
     }
 
 
     const openEditModeBy = (key, identifier) => {
         const prevBeams = [...beams];
         prevBeams.forEach(beam => {
-            beam.onEdit = beam[key] === identifier ? true : false
+            beam.onEdit = beam[key] === identifier ? true : false;
         });
         setBeams(prevBeams)
     }
     const cancelEditModeBy = (key, identifier) => {
         const prevBeams = [...beams];
         prevBeams.forEach(beam => {
-            if (beam[key] === identifier) beam.onEdit = false
+            if (beam[key] === identifier) beam.onEdit = false;
         });
-        setBeams(prevBeams)
+        setBeams(prevBeams);
     }
 
     const confirmEdit = (key, identifier, newBeam) => {

@@ -12,14 +12,14 @@ export const useMainService = () => {
 
     const onAddClick = () => {
         setModifyNewBeamMode(prev => !prev);
-        closeBeamsEditMode()
+        closeBeamsEditMode();
     }
 
     const onDeleteClick = (id) => setAlertAfterDeleteMessage(id);
 
     const openEditMode = (id) => {
         setModifyNewBeamMode(false);
-        openEditModeBy("id", id)
+        openEditModeBy("id", id);
     }
 
 
@@ -30,7 +30,7 @@ export const useMainService = () => {
     }
 
     const cancelEditMode = (id) => {
-        cancelEditModeBy("id", id)
+        cancelEditModeBy("id", id);
     }
 
 
@@ -38,12 +38,12 @@ export const useMainService = () => {
 
     const confirmAlertDeleteMessage = () => {
         setAlertAfterDeleteMessage(0);
-        removeBeamBy("id", alertAfterDeleteMessage)
+        removeBeamBy("id", alertAfterDeleteMessage);
     }
 
-    const confirmBeam = (newBeam) => {
-        confirmAddBeam(newBeam)
-        setModifyNewBeamMode(false)
+    const confirmAddNewBeam = (newBeam) => {
+        confirmAddBeam(newBeam);
+        setModifyNewBeamMode(false);
     }
 
 
@@ -51,7 +51,7 @@ export const useMainService = () => {
         onAddClick,
         cancelAddBeam,
         onDeleteClick,
-        confirmBeam,
+        confirmAddNewBeam,
         confirmEditBeam,
         openEditMode,
         confirmAlertDeleteMessage,
