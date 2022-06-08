@@ -55,7 +55,7 @@ const BeamPage = (props) => {
             <br />
             <Beam data={beams[CURRENT_INDEX]} WSvg={containerWidth} HSvg={400} />
             <br />
-            <Shear data={beams[CURRENT_INDEX]} WSvg={containerWidth} HSvg={400} />
+            {/* <Shear data={beams[CURRENT_INDEX]} WSvg={containerWidth} HSvg={400} /> */}
         </div>
     );
 }

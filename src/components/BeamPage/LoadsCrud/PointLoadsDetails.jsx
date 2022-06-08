@@ -1,29 +1,83 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import BeamsContext from '../../../myContext/BeamsContext';
 import ButtonIcon from '../../buttons/ButtonIcon';
 
-function PointLoadsDetails({ details }) {
+function PointLoadsDetails({ details, beamIndex, loadIndex }) {
+  const { beams, setBeams, validChecks } = useContext(BeamsContext);
   const [editMode, setEditMode] = useState(false);
-  const [nameInputValue, setNameInputValue] = useState("");
-  const [positionInputValue, setPositionInputValue] = useState("");
-  const [valueInputValue, setValueInputValue] = useState("");
+  const [nameInputValue, setNameInputValue] = useState(details.name);
+  const [positionInputValue, setPositionInputValue] = useState(details.position);
+  const [valueInputValue, setValueInputValue] = useState(details.value);
+
+  useEffect(() => {
+
+    const prevBeams = [...beams];
+    prevBeams[beamIndex].loads.pointLoads[loadIndex].position = parseInt(positionInputValue);
+    prevBeams[beamIndex].loads.pointLoads[loadIndex].value = parseInt(valueInputValue);
+    setBeams(prevBeams);
+  }, [positionInputValue, valueInputValue, nameInputValue]);
+
+  const onPositionChange = (e) => {
+    const newVal = e.target.value;
+    if (validChecks.isValidPositionLoad(beamIndex, newVal)) {
+      setPositionInputValue(newVal);
+    }
+  }
+
+  const onNameChange = (e) => {
+    setNameInputValue(e.target.value);
+  }
+
+  const onConfirmButtonClick = () => {
+    if (validChecks.isValidName(nameInputValue, beams[beamIndex].loads.pointLoads[loadIndex].name) && nameInputValue !== "") {
+      const prevBeams = [...beams];
+      prevBeams[beamIndex].loads.pointLoads[loadIndex].name = nameInputValue;
+      setBeams(prevBeams);
+      setEditMode(false);
+    }
+  }
+
+  const onEditButtonClick = () => {
+    setEditMode(true);
+  }
+
+  const onCancelButtonClick = () => {
+    setNameInputValue(beams[beamIndex].loads.pointLoads[loadIndex].name);
+    setEditMode(false);
+  }
+
+  const onDeleteButtonClick = () => {
+    const prevBeams = [...beams];
+    prevBeams[beamIndex].loads.pointLoads.splice(loadIndex, 1);
+    setBeams(prevBeams);
+  }
 
   return (
     <div className='beam-crud-main-container'>
-      <div className='edit-delete-beam-crud-container'>
-        <ButtonIcon type="edit" onButtonClick={() => setEditMode(prev => !prev)} />
-        <ButtonIcon type="delete" onButtonClick={() => { }} />
-      </div>
+      {
+        editMode
+          ?
+          <div className="btns-beam-crud-container">
+            <ButtonIcon type="confirm" onButtonClick={onConfirmButtonClick} />
+            <ButtonIcon type="cancel" onButtonClick={onCancelButtonClick} />
+          </div>
+          :
+          <div className='btns-beam-crud-container'>
+            <ButtonIcon type="edit" onButtonClick={onEditButtonClick} />
+            <ButtonIcon type="delete" onButtonClick={onDeleteButtonClick} />
+          </div>
+      }
       {
         editMode
           ?
           <div className='beam-crud-container'>
             <span className='title'>Point Load</span>
             <label htmlFor='name-point' className='property'>Name: </label>
-            <input id='name-point' className='beam-input' type="text" placeholder={details.name} value={nameInputValue} onChange={e => setNameInputValue(e.target.value)} />
+            <input id='name-point' className='beam-input' type="text" value={nameInputValue} onChange={onNameChange} />
             <label htmlFor='pos-point' className='property'>Position: </label>
-            <input id='pos-point' className='beam-input' type="number" placeholder={details.position} value={positionInputValue} onChange={e => setPositionInputValue(e.target.value)} />
+            <input id='pos-point' className='beam-input' type="number" value={positionInputValue} onChange={onPositionChange} />
             <label htmlFor='val-point' className='property'>Value: </label>
-            <input id='val-point' className='beam-input' type="number" placeholder={details.value} value={valueInputValue} onChange={e => setValueInputValue(e.target.value)} />
+            <input id='val-point' className='beam-input' type="number" value={valueInputValue} onChange={e => setValueInputValue(e.target.value)} />
           </div>
           :
           <div className='beam-crud-container'>

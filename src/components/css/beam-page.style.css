@@ -3,6 +3,7 @@
 
     max-width: 900px;
     margin: auto;
+    padding: 0 8px;
 }
 
 .beam-details-container{
@@ -38,13 +39,15 @@
 .supports_loads-container{
     display: flex;
     justify-content: space-around;
+    gap: 16px;
+    margin-bottom: 16px;
 }
 
 
 .loads-cruds-main-container,
 .supports-cruds-main-container{
     width: 100%;
-    margin: 12px 20px;
+    /* margin: 12px 20px; */
     padding-bottom: 12px;
     border-radius: 20px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -73,6 +76,14 @@
     width: 100%;
     border-top: 1px solid black;
     padding-top: 16px;
+}
+
+.btns-beam-crud-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
 }
 
 .edit-delete-beam-crud-container{

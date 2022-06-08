@@ -96,6 +96,7 @@ const Beam = ({ data, WSvg, HSvg }) => {
                 reactionY={fixedSupport.reactionY}
                 reactionX={fixedSupport.reactionX}
                 reactionM={fixedSupport.reactionM}
+                LRelative={LRelative}
             />)}
 
             {getDivision(data).map((support, index) => <Dimension

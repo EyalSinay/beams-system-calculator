@@ -111,7 +111,7 @@ function BeamLinkModify({ beam, modifyStatus, onConfirmClick, onCancelClick }) {
     if (beamName === "") {
       nameRef.current.focus();
       setValidMessage("Set a name for the beam");
-    } else if (validChecks.isValidName(beamName, beam ? beam.name : "")) {
+    } else if (!validChecks.isValidName(beamName, beam ? beam.name : "")) {
       nameRef.current.focus();
       setValidMessage("There is already a beam with this name");
     } else {

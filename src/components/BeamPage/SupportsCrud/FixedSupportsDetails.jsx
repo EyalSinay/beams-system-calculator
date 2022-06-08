@@ -1,30 +1,79 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import BeamsContext from '../../../myContext/BeamsContext';
 import ButtonIcon from '../../buttons/ButtonIcon';
 
-function FixedSupportsDetails({ details }) {
+function FixedSupportsDetails({ details, beamIndex, supportIndex }) {
+  const { beams, setBeams, validChecks } = useContext(BeamsContext);
   const [editMode, setEditMode] = useState(false);
-  const [nameInputValue, setNameInputValue] = useState("");
-  const [positionInputValue, setPositionInputValue] = useState("");
+  const [nameInputValue, setNameInputValue] = useState(details.name);
+  const [positionInputValue, setPositionInputValue] = useState(details.position > 0 ? "End" : "Start");
 
   useEffect(() => {
-    setPositionInputValue(details.position > 0 ? "End" : "Start")
-  },[]);
+    const prevBeams = [...beams];
+    const newPos = positionInputValue === "End" ? beams[beamIndex].l : 0;
+    prevBeams[beamIndex].supports.fixedSupports[supportIndex].position = newPos;
+    setBeams(prevBeams);
+  }, [positionInputValue]);
+
+  const onPositionChange = (e) => {
+    const newVal = e.target.value === "End" ? beams[beamIndex].l : 0;
+    if (validChecks.isValidPositionSupport(newVal, beamIndex)) {
+      setPositionInputValue(e.target.value);
+    }
+  }
+
+  const onNameChange = (e) => {
+    setNameInputValue(e.target.value);
+  }
+
+  const onConfirmButtonClick = () => {
+    if (validChecks.isValidName(nameInputValue, beams[beamIndex].supports.fixedSupports[supportIndex].name) && nameInputValue !== "") {
+      const prevBeams = [...beams];
+      prevBeams[beamIndex].supports.fixedSupports[supportIndex].name = nameInputValue;
+      setBeams(prevBeams);
+      setEditMode(false);
+    }
+  }
+
+  const onEditButtonClick = () => {
+    setEditMode(true);
+  }
+
+  const onCancelButtonClick = () => {
+    setNameInputValue(beams[beamIndex].supports.fixedSupports[supportIndex].name);
+    setEditMode(false);
+  }
+
+  const onDeleteButtonClick = () => {
+    const prevBeams = [...beams];
+    prevBeams[beamIndex].supports.fixedSupports.splice(supportIndex, 1);
+    setBeams(prevBeams);
+  }
 
   return (
     <div className='beam-crud-main-container'>
-      <div className='edit-delete-beam-crud-container'>
-        <ButtonIcon type="edit" onButtonClick={() => setEditMode(prev => !prev)} />
-        <ButtonIcon type="delete" onButtonClick={() => { }} />
-      </div>
+      {
+        editMode
+          ?
+          <div className="btns-beam-crud-container">
+            <ButtonIcon type="confirm" onButtonClick={onConfirmButtonClick} />
+            <ButtonIcon type="cancel" onButtonClick={onCancelButtonClick} />
+          </div>
+          :
+          <div className='btns-beam-crud-container'>
+            <ButtonIcon type="edit" onButtonClick={onEditButtonClick} />
+            <ButtonIcon type="delete" onButtonClick={onDeleteButtonClick} />
+          </div>
+      }
       {
         editMode
           ?
           <div className='beam-crud-container'>
             <span className='title'>Fixed Support</span>
             <label htmlFor='name-fixed' className='property'>Name: </label>
-            <input id='name-fixed' className='beam-input' type="text" placeholder={details.name} value={nameInputValue} onChange={e => setNameInputValue(e.target.value)} />
+            <input id='name-fixed' className='beam-input' type="text" placeholder={details.name} value={nameInputValue} onChange={onNameChange} />
             <span className='property'>Position:</span>
-            <div onChange={(e) => setPositionInputValue(e.target.value)}>
+            <div onChange={onPositionChange}>
               <input defaultChecked={positionInputValue === "Start"} type='radio' id='start-fixed' name='pos-fixed' value='Start' />
               <label htmlFor="start-fixed">Start</label>
               <input defaultChecked={positionInputValue === "End"} type='radio' id='end-fixed' name='pos-fixed' value='End' />

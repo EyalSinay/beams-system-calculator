@@ -15,10 +15,10 @@ const myBeams = [
         onEdit: false,
         supports: {
             pinSupports: [
-                { name: "s1", position: 0, reactionY: 0, reactionX: 0 },
+                { name: "beam1s1", position: 0, reactionY: 0, reactionX: 0 },
             ],
             rollerSupports: [
-                { name: "s2", position: 2.5, reactionY: 0 },
+                { name: "beam1s2", position: 2.5, reactionY: 0 },
             ],
             fixedSupports: [
 
@@ -26,10 +26,10 @@ const myBeams = [
         },
         loads: {
             pointLoads: [
-                { name: "load1", position: 1, value: -5 },
+                { name: "beam1load1", position: 1, value: -5 },
             ],
             distributedLoads: [
-                { name: "load2", position1: 0, position2: 1, value1: -10, value2: -10 },
+                { name: "beam1load2", position1: 0, position2: 1, value1: -10, value2: -10 },
             ],
         },
     },
@@ -46,10 +46,10 @@ const myBeams = [
         onEdit: false,
         supports: {
             pinSupports: [
-                { name: "s1", position: 1, reactionY: 0, reactionX: 0 },
+                { name: "beam2s1", position: 1, reactionY: 0, reactionX: 0 },
             ],
             rollerSupports: [
-                { name: "s2", position: 4, reactionY: 0 },
+                { name: "beam2s2", position: 4, reactionY: 0 },
             ],
             fixedSupports: [
 
@@ -57,10 +57,10 @@ const myBeams = [
         },
         loads: {
             pointLoads: [
-                { name: "load1", position: 3, value: -5 },
+                { name: "beam2load1", position: 3, value: -5 },
             ],
             distributedLoads: [
-                { name: "load2", position1: 0, position2: 5, value1: -5, value2: -15 },
+                { name: "beam2load2", position1: 0, position2: 5, value1: -5, value2: -15 },
             ],
         },
     },
@@ -83,15 +83,15 @@ const myBeams = [
 
             ],
             fixedSupports: [
-                { name: "s1", position: 4, reactionY: 0, reactionX: 0, reactionM: 0 },
+                { name: "beam3s1", position: 4, reactionY: 0, reactionX: 0, reactionM: 0 },
             ],
         },
         loads: {
             pointLoads: [
-                { name: "load1", position: 2, value: -5 },
+                { name: "beam3load1", position: 2, value: -5 },
             ],
             distributedLoads: [
-                { name: "load2", position1: 1, position2: 4, value1: -3, value2: -3 },
+                { name: "beam3load2", position1: 1, position2: 4, value1: -3, value2: -3 },
             ],
         },
     },
@@ -108,10 +108,10 @@ const myBeams = [
         onEdit: false,
         supports: {
             pinSupports: [
-                { name: "s1", position: 0, reactionY: 0, reactionX: 0 },
+                { name: "beam4s1", position: 0, reactionY: 0, reactionX: 0 },
             ],
             rollerSupports: [
-                { name: "s2", position: 5, reactionY: 0 },
+                { name: "beam4s2", position: 5, reactionY: 0 },
             ],
             fixedSupports: [
 
@@ -119,10 +119,10 @@ const myBeams = [
         },
         loads: {
             pointLoads: [
-
+                { name: "beam4load1", position: 2, value: -5 },
             ],
             distributedLoads: [
-                { name: "load2", position1: 0, position2: 5, value1: -3, value2: -3 },
+                { name: "beam4load2", position1: 0, position2: 5, value1: -3, value2: -3 },
             ],
         },
     },
@@ -216,12 +216,76 @@ const BeamProvider = ({ children }) => {
     // ------------------------------------------------------------
     // Valid Checks:
     const isValidName = (newName, outstanding = "") => {
-        const isNameNotExist = beams.some(beam => beam.name === newName && beam.name !== outstanding);
-        return isNameNotExist;
+        const beamsNames = []
+        beamsNames.push(!beams.some(beam => beam.name === newName && beam.name !== outstanding));
+        for (let beam of beams){
+            for(let supportKey in beam.supports){
+                beamsNames.push(!beam.supports[supportKey].some(support => support.name === newName && support.name !== outstanding));
+            }
+            for(let loadKey in beam.loads){
+                beamsNames.push(!beam.loads[loadKey].some(load => load.name === newName && load.name !== outstanding));
+            }
+        }
+        
+        let isValid = true;
+        for (let bool of beamsNames){
+            isValid = isValid && bool;
+        }
+        
+        return isValid;
+    }
+
+    const isValidPositionSupport = (pos, indexBeam) => {
+        // check if some support exist in the bew position:
+        const allPositionsSupports = [];
+        for (const support in beams[indexBeam].supports) {
+            beams[indexBeam].supports[support].forEach(element => {
+                allPositionsSupports.push(element.position);
+            });
+        }
+        let validPos = !allPositionsSupports.some(element => Math.abs(element - pos) < 0.3);
+
+        // check if new position is less or more from length beam:
+        validPos = validPos && pos >= 0 && pos <= beams[indexBeam].l;
+
+        return validPos;
+    }
+
+    const isValidPositionLoad = (indexBeam, pos1, pos2) => {
+        let validPos = true;
+        validPos = validPos && pos1 >= 0 && pos1 <= beams[indexBeam].l;
+        if(pos2){
+            validPos = validPos && pos2 >= 0 && pos2 <= beams[indexBeam].l;
+            validPos = validPos && pos1 < pos2;
+        }
+
+        return validPos;
+    }
+
+    const isValidLength = (beamLength, indexBeam) => {
+        const doNotPass = [];
+
+        for (const support in beams[indexBeam].supports) {
+            beams[indexBeam].supports[support].forEach(element => {
+                doNotPass.push(element.position);
+            });
+        }
+        beams[indexBeam].loads.pointLoads.forEach(element => {
+            doNotPass.push(element.position);
+        });
+        beams[indexBeam].loads.distributedLoads.forEach(element => {
+            doNotPass.push(element.position2);
+        });
+
+        const maxPos = Math.max(...doNotPass);
+        return { validBool: beamLength >= maxPos, maxValid: maxPos };
     }
 
     const validChecks = {
         isValidName,
+        isValidLength,
+        isValidPositionSupport,
+        isValidPositionLoad,
     }
     // ------------------------------------------------------------
 

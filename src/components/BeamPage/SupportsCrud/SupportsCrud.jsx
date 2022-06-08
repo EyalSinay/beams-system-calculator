@@ -2,18 +2,17 @@ import React, { useContext } from 'react'
 import BeamsContext from '../../../myContext/BeamsContext';
 import ButtonIcon from '../../buttons/ButtonIcon';
 import FixedSupportsDetails from './FixedSupportsDetails';
-import PinSupportsDetails from './PinSupportsDetails';
-import RollerSupports from './RollerSupportsDetails';
+import PinRollerSupportsDetails from './PinRollerSupportsDetails';
 
 function SupportsCrud({ index }) {
-  const { beams, setBeams } = useContext(BeamsContext);
+  const { beams } = useContext(BeamsContext);
 
   const getAllSupports = () => {
     return (
       <>
-    {beams[index].supports.fixedSupports.map(support => <FixedSupportsDetails key={support.name} details={support}/>)}
-    {beams[index].supports.pinSupports.map(support => <PinSupportsDetails key={support.name} details={support}/>)}
-    {beams[index].supports.rollerSupports.map(support => <RollerSupports key={support.name} details={support}/>)}
+    {beams[index].supports.fixedSupports.map((support, supportIndex) => <FixedSupportsDetails key={"fixedSupports_" + support.name} details={support} beamIndex={index} supportIndex={supportIndex}/>)}
+    {beams[index].supports.pinSupports.map((support, supportIndex) => <PinRollerSupportsDetails key={"pinSupports_" + support.name} type="pinSupports" details={support} beamIndex={index} supportIndex={supportIndex}/>)}
+    {beams[index].supports.rollerSupports.map((support, supportIndex) => <PinRollerSupportsDetails key={"rollerSupports_" + support.name} type="rollerSupports" beamIndex={index} supportIndex={supportIndex}/>)}
       </>
     );
   }

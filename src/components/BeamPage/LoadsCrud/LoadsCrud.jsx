@@ -12,8 +12,8 @@ function LoadsCrud({index}) {
     const getAllLoads = () => {
         return (
           <>
-        {beams[index].loads.distributedLoads.map(load => <DistributedLoadsDetails key={load.name} details={load} />)}
-        {beams[index].loads.pointLoads.map(load => <PointLoadsDetails key={load.name} details={load} />)}
+        {beams[index].loads.distributedLoads.map((load, loadIndex) => <DistributedLoadsDetails key={load.name} details={load} beamIndex={index} loadIndex={loadIndex} />)}
+        {beams[index].loads.pointLoads.map((load, loadIndex) => <PointLoadsDetails key={load.name} details={load} beamIndex={index} loadIndex={loadIndex} />)}
           </>
         );
       }
