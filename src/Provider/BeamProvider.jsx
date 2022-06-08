@@ -150,12 +150,22 @@ const BeamProvider = ({ children }) => {
         });
         prevBeams.push({
             name: newBeam.newName,
+            l: parseInt(newBeam.newLength),
             id: maxId + 1,
             material: newBeam.newMaterial,
             steelProperty: newBeam.steelsData || {},
-            b: newBeam.newDimensionsB,
-            h: newBeam.newDimensionsH,
+            b: parseInt(newBeam.newDimensionsB),
+            h: parseInt(newBeam.newDimensionsH),
             onEdit: false,
+            supports: {
+                pinSupports: [],
+                rollerSupports: [],
+                fixedSupports: [],
+            },
+            loads: {
+                pointLoads: [],
+                distributedLoads: [],
+            }
         });
         setBeams(prevBeams);
     }
@@ -190,10 +200,11 @@ const BeamProvider = ({ children }) => {
         prevBeams[beamIndex] = {
             ...prevBeams[beamIndex],
             name: newBeam.newName,
+            l: parseInt(newBeam.newLength),
             material: newBeam.newMaterial,
             steelProperty: newBeam.steelsData || {},
-            b: newBeam.newDimensionsB,
-            h: newBeam.newDimensionsH,
+            b: parseInt(newBeam.newDimensionsB),
+            h: parseInt(newBeam.newDimensionsH),
             onEdit: false,
 
         }
@@ -218,20 +229,20 @@ const BeamProvider = ({ children }) => {
     const isValidName = (newName, outstanding = "") => {
         const beamsNames = []
         beamsNames.push(!beams.some(beam => beam.name === newName && beam.name !== outstanding));
-        for (let beam of beams){
-            for(let supportKey in beam.supports){
+        for (let beam of beams) {
+            for (let supportKey in beam.supports) {
                 beamsNames.push(!beam.supports[supportKey].some(support => support.name === newName && support.name !== outstanding));
             }
-            for(let loadKey in beam.loads){
+            for (let loadKey in beam.loads) {
                 beamsNames.push(!beam.loads[loadKey].some(load => load.name === newName && load.name !== outstanding));
             }
         }
-        
+
         let isValid = true;
-        for (let bool of beamsNames){
+        for (let bool of beamsNames) {
             isValid = isValid && bool;
         }
-        
+
         return isValid;
     }
 
@@ -253,7 +264,7 @@ const BeamProvider = ({ children }) => {
     const isValidPositionLoad = (indexBeam, pos1, pos2) => {
         let validPos = true;
         validPos = validPos && pos1 >= 0 && pos1 <= beams[indexBeam].l;
-        if(pos2){
+        if (pos2) {
             validPos = validPos && pos2 >= 0 && pos2 <= beams[indexBeam].l;
             validPos = validPos && pos1 < pos2;
         }
@@ -261,7 +272,10 @@ const BeamProvider = ({ children }) => {
         return validPos;
     }
 
-    const isValidLength = (beamLength, indexBeam) => {
+    const isValidLength = (beamLength, indexBeam, beamName = "") => {
+        if(indexBeam === -1){
+            indexBeam = beams.findIndex(beam => beam.name === beamName);
+        }
         const doNotPass = [];
 
         for (const support in beams[indexBeam].supports) {
@@ -288,7 +302,7 @@ const BeamProvider = ({ children }) => {
     }
     // ------------------------------------------------------------
 
-
+    // console.log(beams);
     return (
         <BeamsContext.Provider value={{ beams, setBeams, beamHandlers, validChecks }}>
             {children}

@@ -5,17 +5,13 @@ import ButtonIcon from '../buttons/ButtonIcon';
 function BeamLengthCrud({ index }) {
     const { beams, setBeams, validChecks } = useContext(BeamsContext);
     const [editMode, setEditMode] = useState(false);
-    const [inputValue, setInputValue] = useState("");
+    const [inputValue, setInputValue] = useState(beams[index].l);
 
     useEffect(() => {
         const prevArr = [...beams];
         prevArr[index].l = inputValue;
         setBeams(prevArr)
     }, [inputValue]);
-
-    useEffect(() => {
-        setInputValue(beams[index].l);
-    }, [editMode, beams, index]);
 
     const onEditClick = () => {
         setEditMode(prev => !prev);

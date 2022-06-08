@@ -5,7 +5,7 @@ import ProfileDetails from '../BeamComponents/ProfileDetails';
 import BeamSection from '../BeamComponents/BeamSection';
 import ButtonIcon from '../buttons/ButtonIcon';
 import BeamsContext from '../../myContext/BeamsContext';
-import {getColorBeam} from '../../services/getImagesSections';
+import { getColorBeam } from '../../services/getImagesSections';
 
 const ignoreCors = "https://nameless-citadel-58066.herokuapp.com/"
 
@@ -21,6 +21,7 @@ function BeamLinkModify({ beam, modifyStatus, onConfirmClick, onCancelClick }) {
   const [beamDimensionsH, setBeamDimensionsH] = useState(40);
   const [validMessage, setValidMessage] = useState("");
   const { validChecks } = useContext(BeamsContext);
+  const [beamLength, setBeamLength] = useState(1);
 
   useEffect(() => {
     if (beam && Object.keys(beam).length > 0) {
@@ -29,6 +30,7 @@ function BeamLinkModify({ beam, modifyStatus, onConfirmClick, onCancelClick }) {
       setSteelsData(beam.steelProperty);
       setBeamDimensionsB(beam.b);
       setBeamDimensionsH(beam.h);
+      setBeamLength(beam.l);
       if (beam && Object.keys(beam.steelProperty).length > 0) {
         setProfileType(beam.steelProperty.name.slice(0, 3));
       }
@@ -107,6 +109,18 @@ function BeamLinkModify({ beam, modifyStatus, onConfirmClick, onCancelClick }) {
     );
   }
 
+  const onLengthChange = (e) => {
+    if (beam && Object.keys(beam).length > 0) {
+      if (e.target.value > 0 && validChecks.isValidLength(e.target.value, -1, beam.name).validBool) {
+        setBeamLength(e.target.value);
+      }
+    } else {
+      if (e.target.value > 0) {
+        setBeamLength(e.target.value);
+      }
+    };
+  }
+
   const confirmFunc = () => {
     if (beamName === "") {
       nameRef.current.focus();
@@ -117,6 +131,7 @@ function BeamLinkModify({ beam, modifyStatus, onConfirmClick, onCancelClick }) {
     } else {
       const newBeam = {
         newName: beamName,
+        newLength: beamLength,
         newMaterial: beamMaterial,
         steelsData: steelsData[profileName],
         newDimensionsB: beamDimensionsB,
@@ -148,7 +163,11 @@ function BeamLinkModify({ beam, modifyStatus, onConfirmClick, onCancelClick }) {
         <label htmlFor="beam-name">Beam name:</label>
         <input ref={nameRef} type="text" id="beam-name" value={beamName} onChange={(e) => setBeamName(e.target.value)} />
       </div>
-        <div className='modify-valid-message'>{validMessage}</div>
+      <div className='modify-valid-message'>{validMessage}</div>
+      <div className="beam-length-container">
+        <label htmlFor="beam-length">Beam Length:</label>
+        <input type="number" id="beam-length" value={beamLength} onChange={onLengthChange} />
+      </div>
       <div className="material-container">
         <label htmlFor="material">Material:</label>
         <select name="material" id="material-selection" value={beamMaterial} onChange={e => setBeamMaterial(e.target.value)}>
