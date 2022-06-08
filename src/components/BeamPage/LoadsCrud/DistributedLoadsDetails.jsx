@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import BeamsContext from '../../../myContext/BeamsContext';
-import ButtonIcon from '../../buttons/ButtonIcon'
+import ButtonIcon from '../../buttons/ButtonIcon';
+import DeleteMassage from '../../messages/DeleteMassage';
 
 function DistributedLoadsDetails({ details, beamIndex, loadIndex }) {
   const { beams, setBeams, validChecks } = useContext(BeamsContext);
@@ -10,6 +11,7 @@ function DistributedLoadsDetails({ details, beamIndex, loadIndex }) {
   const [position2InputValue, setPosition2InputValue] = useState(details.position2);
   const [value1InputValue, setValue1InputValue] = useState(details.value1);
   const [value2InputValue, setValue2InputValue] = useState(details.value2);
+  const [deleteMode, setDeleteMode] = useState(false);
 
   useEffect(() => {
     const prevBeams = [...beams];
@@ -55,10 +57,13 @@ function DistributedLoadsDetails({ details, beamIndex, loadIndex }) {
     setEditMode(false);
   }
 
-  const onDeleteButtonClick = () => {
-    const prevBeams = [...beams];
-    prevBeams[beamIndex].loads.distributedLoads.splice(loadIndex, 1);
-    setBeams(prevBeams);
+  const toggleDeleteMode = () => {
+    setDeleteMode(prev => !prev);
+  }
+  const onDeleteMessageClick = () => {
+  const prevBeams = [...beams];
+  prevBeams[beamIndex].loads.distributedLoads.splice(loadIndex, 1);
+  setBeams(prevBeams);
   }
 
   return (
@@ -73,7 +78,7 @@ function DistributedLoadsDetails({ details, beamIndex, loadIndex }) {
           :
           <div className='btns-beam-crud-container'>
             <ButtonIcon type="edit" onButtonClick={onEditButtonClick} />
-            <ButtonIcon type="delete" onButtonClick={onDeleteButtonClick} />
+            <ButtonIcon type="delete" onButtonClick={toggleDeleteMode} />
           </div>
       }
       {
@@ -82,15 +87,15 @@ function DistributedLoadsDetails({ details, beamIndex, loadIndex }) {
           <div className='beam-crud-container'>
             <span className='title'>Distributed Load</span>
             <label htmlFor='name-dis' className='property'>Name: </label>
-            <input className='beam-input' id='name-dis' type="text" placeholder={details.name} value={nameInputValue} onChange={onNameChange} />
+            <input className='beam-input' id='name-dis' type="text" value={nameInputValue} onChange={onNameChange} />
             <label htmlFor='start-pos-dis' className='property'>Start: </label>
-            <input className='beam-input' id='start-pos-dis' type="number" placeholder={details.position1} value={position1InputValue} onChange={onPosition1Change} />
+            <input className='beam-input' id='start-pos-dis' type="number" value={position1InputValue} onChange={onPosition1Change} />
             <label htmlFor='end-pos-dis' className='property'>End: </label>
-            <input className='beam-input' id='end-pos-dis' type="number" placeholder={details.position2} value={position2InputValue} onChange={onPosition2Change} />
+            <input className='beam-input' id='end-pos-dis' type="number" value={position2InputValue} onChange={onPosition2Change} />
             <label htmlFor='start-val-dis' className='property'>Start Value: </label>
-            <input className='beam-input' id='start-val-dis' type="number" placeholder={details.value1} value={value1InputValue} onChange={e => setValue1InputValue(e.target.value)} />
+            <input className='beam-input' id='start-val-dis' type="number" value={value1InputValue} onChange={e => setValue1InputValue(e.target.value)} />
             <label htmlFor='end-val-dis' className='property'>End Value: </label>
-            <input className='beam-input' id='end-val-dis' type="number" placeholder={details.value2} value={value2InputValue} onChange={e => setValue2InputValue(e.target.value)} />
+            <input className='beam-input' id='end-val-dis' type="number" value={value2InputValue} onChange={e => setValue2InputValue(e.target.value)} />
           </div>
           :
           <div className='beam-crud-container'>
@@ -102,6 +107,7 @@ function DistributedLoadsDetails({ details, beamIndex, loadIndex }) {
             <span><span className='property'>End Value: </span>{details.value2}</span>
           </div>
       }
+      {deleteMode && <DeleteMassage onConfirmClick={onDeleteMessageClick} onCancelClick={toggleDeleteMode} onBackgroundClick={toggleDeleteMode} />}
     </div>
   )
 }

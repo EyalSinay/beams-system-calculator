@@ -11,7 +11,7 @@ function DeleteMassage({onBackgroundClick = () => {}, onCancelClick = () => {}, 
   return (
     <div className='delete-msg-main-container msg-main-container' onClick={onlyOnBackgroundClick}>
       <div className="delete-msg-container msg-container">
-        <h4>Delete this beam?</h4>
+        <h4>Delete?</h4>
         <div className="confirm-cancel-container">
           <ButtonIcon type="confirm" onButtonClick={onConfirmClick} />
           <ButtonIcon type="cancel" onButtonClick={onCancelClick}/>

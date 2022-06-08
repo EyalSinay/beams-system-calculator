@@ -1,12 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import BeamsContext from '../../../myContext/BeamsContext';
 import ButtonIcon from '../../buttons/ButtonIcon';
+import DeleteMassage from '../../messages/DeleteMassage';
 
 function PinRollerSupportsDetails({ type, beamIndex, supportIndex }) {
   const { beams, setBeams, validChecks } = useContext(BeamsContext);
   const [editMode, setEditMode] = useState(false);
   const [nameInputValue, setNameInputValue] = useState(beams[beamIndex].supports[type][supportIndex].name);
   const [positionInputValue, setPositionInputValue] = useState(beams[beamIndex].supports[type][supportIndex].position);
+  const [deleteMode, setDeleteMode] = useState(false);
 
   useEffect(() => {
     const prevBeams = [...beams];
@@ -43,11 +45,15 @@ function PinRollerSupportsDetails({ type, beamIndex, supportIndex }) {
     setEditMode(false);
   }
 
-  const onDeleteButtonClick = () => {
-    const prevBeams = [...beams];
-    prevBeams[beamIndex].supports[type].splice(supportIndex, 1);
-    setBeams(prevBeams);
+  const toggleDeleteMode = () => {
+    setDeleteMode(prev => !prev);
   }
+
+  const onDeleteMessageClick = () => {
+  const prevBeams = [...beams];
+  prevBeams[beamIndex].supports[type].splice(supportIndex, 1);
+  setBeams(prevBeams);
+}
 
   return (
     <div className='beam-crud-main-container'>
@@ -61,7 +67,7 @@ function PinRollerSupportsDetails({ type, beamIndex, supportIndex }) {
           :
           <div className='btns-beam-crud-container'>
             <ButtonIcon type="edit" onButtonClick={onEditButtonClick} />
-            <ButtonIcon type="delete" onButtonClick={onDeleteButtonClick} />
+            <ButtonIcon type="delete" onButtonClick={toggleDeleteMode} />
           </div>
       }
       {
@@ -81,6 +87,7 @@ function PinRollerSupportsDetails({ type, beamIndex, supportIndex }) {
             <span><span className='property'>Position: </span>{positionInputValue}</span>
           </div>
       }
+      {deleteMode && <DeleteMassage onConfirmClick={onDeleteMessageClick} onCancelClick={toggleDeleteMode} onBackgroundClick={toggleDeleteMode} />}
     </div>
   )
 }

@@ -236,7 +236,7 @@ const BeamProvider = ({ children }) => {
     }
 
     const isValidPositionSupport = (pos, indexBeam) => {
-        // check if some support exist in the bew position:
+        // check if some support exist in the beam position:
         const allPositionsSupports = [];
         for (const support in beams[indexBeam].supports) {
             beams[indexBeam].supports[support].forEach(element => {
@@ -247,7 +247,6 @@ const BeamProvider = ({ children }) => {
 
         // check if new position is less or more from length beam:
         validPos = validPos && pos >= 0 && pos <= beams[indexBeam].l;
-
         return validPos;
     }
 

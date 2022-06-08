@@ -1,12 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import BeamsContext from '../../../myContext/BeamsContext';
 import ButtonIcon from '../../buttons/ButtonIcon';
+import DeleteMassage from '../../messages/DeleteMassage';
 
 function FixedSupportsDetails({ details, beamIndex, supportIndex }) {
   const { beams, setBeams, validChecks } = useContext(BeamsContext);
   const [editMode, setEditMode] = useState(false);
   const [nameInputValue, setNameInputValue] = useState(details.name);
   const [positionInputValue, setPositionInputValue] = useState(details.position > 0 ? "End" : "Start");
+  const [deleteMode, setDeleteMode] = useState(false);
 
   useEffect(() => {
     const prevBeams = [...beams];
@@ -44,10 +46,13 @@ function FixedSupportsDetails({ details, beamIndex, supportIndex }) {
     setEditMode(false);
   }
 
-  const onDeleteButtonClick = () => {
-    const prevBeams = [...beams];
-    prevBeams[beamIndex].supports.fixedSupports.splice(supportIndex, 1);
-    setBeams(prevBeams);
+  const toggleDeleteMode = () => {
+    setDeleteMode(prev => !prev);
+  }
+  const onDeleteMessageClick = () => {
+  const prevBeams = [...beams];
+  prevBeams[beamIndex].supports.fixedSupports.splice(supportIndex, 1);
+  setBeams(prevBeams);
   }
 
   return (
@@ -62,7 +67,7 @@ function FixedSupportsDetails({ details, beamIndex, supportIndex }) {
           :
           <div className='btns-beam-crud-container'>
             <ButtonIcon type="edit" onButtonClick={onEditButtonClick} />
-            <ButtonIcon type="delete" onButtonClick={onDeleteButtonClick} />
+            <ButtonIcon type="delete" onButtonClick={toggleDeleteMode} />
           </div>
       }
       {
@@ -87,6 +92,7 @@ function FixedSupportsDetails({ details, beamIndex, supportIndex }) {
             <span><span className='property'>Position: </span>{details.position > 0 ? "End" : "Start"}</span>
           </div>
       }
+      {deleteMode && <DeleteMassage onConfirmClick={onDeleteMessageClick} onCancelClick={toggleDeleteMode} onBackgroundClick={toggleDeleteMode} />}
     </div>
   )
 }

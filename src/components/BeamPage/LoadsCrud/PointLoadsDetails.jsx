@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import BeamsContext from '../../../myContext/BeamsContext';
 import ButtonIcon from '../../buttons/ButtonIcon';
+import DeleteMassage from '../../messages/DeleteMassage';
 
 function PointLoadsDetails({ details, beamIndex, loadIndex }) {
   const { beams, setBeams, validChecks } = useContext(BeamsContext);
@@ -8,6 +9,7 @@ function PointLoadsDetails({ details, beamIndex, loadIndex }) {
   const [nameInputValue, setNameInputValue] = useState(details.name);
   const [positionInputValue, setPositionInputValue] = useState(details.position);
   const [valueInputValue, setValueInputValue] = useState(details.value);
+  const [deleteMode, setDeleteMode] = useState(false);
 
   useEffect(() => {
 
@@ -46,10 +48,13 @@ function PointLoadsDetails({ details, beamIndex, loadIndex }) {
     setEditMode(false);
   }
 
-  const onDeleteButtonClick = () => {
-    const prevBeams = [...beams];
-    prevBeams[beamIndex].loads.pointLoads.splice(loadIndex, 1);
-    setBeams(prevBeams);
+  const toggleDeleteMode = () => {
+    setDeleteMode(prev => !prev);
+  }
+  const onDeleteMessageClick = () => {
+  const prevBeams = [...beams];
+  prevBeams[beamIndex].loads.pointLoads.splice(loadIndex, 1);
+  setBeams(prevBeams);
   }
 
   return (
@@ -64,7 +69,7 @@ function PointLoadsDetails({ details, beamIndex, loadIndex }) {
           :
           <div className='btns-beam-crud-container'>
             <ButtonIcon type="edit" onButtonClick={onEditButtonClick} />
-            <ButtonIcon type="delete" onButtonClick={onDeleteButtonClick} />
+            <ButtonIcon type="delete" onButtonClick={toggleDeleteMode} />
           </div>
       }
       {
@@ -87,6 +92,7 @@ function PointLoadsDetails({ details, beamIndex, loadIndex }) {
             <span><span className='property'>Value: </span>{details.value}</span>
           </div>
       }
+      {deleteMode && <DeleteMassage onConfirmClick={onDeleteMessageClick} onCancelClick={toggleDeleteMode} onBackgroundClick={toggleDeleteMode} />}
     </div>
   )
 }
