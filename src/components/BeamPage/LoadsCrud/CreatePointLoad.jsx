@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import BeamsContext from '../../../myContext/BeamsContext';
 import ButtonIcon from '../../buttons/ButtonIcon';
-import DeleteMassage from '../../messages/DeleteMassage';
 
 function CreatePointLoad({ beamIndex, onCancel }) {
   const { beams, setBeams, validChecks } = useContext(BeamsContext);
@@ -24,7 +23,7 @@ function CreatePointLoad({ beamIndex, onCancel }) {
     if (validChecks.isValidName(nameInputValue) && nameInputValue !== "") {
       const prevBeams = [...beams];
       prevBeams[beamIndex].loads.pointLoads.push({
-        name: parseInt(nameInputValue),
+        name: nameInputValue,
         position: parseInt(positionInputValue),
         value: parseInt(valueInputValue)
       });

@@ -17,6 +17,7 @@ function PointLoadsDetails({ details, beamIndex, loadIndex }) {
     prevBeams[beamIndex].loads.pointLoads[loadIndex].position = parseInt(positionInputValue);
     prevBeams[beamIndex].loads.pointLoads[loadIndex].value = parseInt(valueInputValue);
     setBeams(prevBeams);
+    // eslint-disable-next-line
   }, [positionInputValue, valueInputValue, nameInputValue]);
 
   const onPositionChange = (e) => {

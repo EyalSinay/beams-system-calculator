@@ -20,6 +20,7 @@ function DistributedLoadsDetails({ details, beamIndex, loadIndex }) {
     prevBeams[beamIndex].loads.distributedLoads[loadIndex].value1 = parseInt(value1InputValue);
     prevBeams[beamIndex].loads.distributedLoads[loadIndex].value2 = parseInt(value2InputValue);
     setBeams(prevBeams);
+    // eslint-disable-next-line
   }, [position1InputValue, position2InputValue, value1InputValue, value2InputValue]);
 
   const onPosition1Change = (e) => {

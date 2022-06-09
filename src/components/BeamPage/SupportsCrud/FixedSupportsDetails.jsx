@@ -15,6 +15,7 @@ function FixedSupportsDetails({ details, beamIndex, supportIndex }) {
     const newPos = positionInputValue === "End" ? beams[beamIndex].l : 0;
     prevBeams[beamIndex].supports.fixedSupports[supportIndex].position = newPos;
     setBeams(prevBeams);
+    // eslint-disable-next-line
   }, [positionInputValue]);
 
   const onPositionChange = (e) => {

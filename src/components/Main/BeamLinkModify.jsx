@@ -35,6 +35,7 @@ function BeamLinkModify({ beam, modifyStatus, onConfirmClick, onCancelClick }) {
         setProfileType(beam.steelProperty.name.slice(0, 3));
       }
     }
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -48,6 +49,7 @@ function BeamLinkModify({ beam, modifyStatus, onConfirmClick, onCancelClick }) {
     if (beam && Object.keys(beam.steelProperty).length > 0) {
       setProfileName(beam.steelProperty.name);
     }
+    // eslint-disable-next-line
   }, [profileType])
 
   const BeamDimensions = () => {

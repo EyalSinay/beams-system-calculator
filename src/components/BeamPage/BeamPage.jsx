@@ -1,7 +1,7 @@
 import '../css/beam-page.style.css'
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Beam from "../BeamComponents/Beam/Beam";
-import Shear from "../BeamComponents/Shear/Shear";
+// import Shear from "../BeamComponents/Shear/Shear";
 import BeamsContext from "../../myContext/BeamsContext";
 // import getSupportReactions from "../../services/getSupportReactions";
 import BeamDetails from './BeamDetails';
@@ -11,7 +11,7 @@ import BeamLengthCrud from './BeamLengthCrud';
 
 
 const BeamPage = (props) => {
-    const { beams, setBeams } = useContext(BeamsContext);
+    const { beams } = useContext(BeamsContext);
     const [CURRENT_INDEX, setCURRENT_INDEX] = useState(0);
     const containerRef = useRef("");
     const [containerWidth, SetContainerWidth] = useState(0);
@@ -28,6 +28,7 @@ const BeamPage = (props) => {
         setCURRENT_INDEX(() => {
             return beams.findIndex(beam => beam.name === props.match.params.name);
         });
+        // eslint-disable-next-line
     }, [CURRENT_INDEX]);
 
     // useEffect(() => {
@@ -42,6 +43,7 @@ const BeamPage = (props) => {
     //         }
     //         return newBeamsArr;
     //     });
+    // eslint-disable-next-line
     // }, []);
 
     return (

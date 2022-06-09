@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import BeamsContext from '../../../myContext/BeamsContext';
 import ButtonIcon from '../../buttons/ButtonIcon';
-import DeleteMassage from '../../messages/DeleteMassage';
 
 function CreateFixedSupport({ beamIndex, onCancel }) {
   const { beams, setBeams, validChecks } = useContext(BeamsContext);

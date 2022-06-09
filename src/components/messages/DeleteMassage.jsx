@@ -21,4 +21,4 @@ function DeleteMassage({onBackgroundClick = () => {}, onCancelClick = () => {}, 
   )
 }
 
-export default DeleteMassage
+export default DeleteMassage;

@@ -14,6 +14,7 @@ function PinRollerSupportsDetails({ type, beamIndex, supportIndex }) {
     const prevBeams = [...beams];
     prevBeams[beamIndex].supports[type][supportIndex].position = parseInt(positionInputValue);
     setBeams(prevBeams);
+    // eslint-disable-next-line
   }, [positionInputValue, nameInputValue]);
 
   const onPositionChange = (e) => {

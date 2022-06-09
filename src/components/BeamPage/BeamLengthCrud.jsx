@@ -10,7 +10,8 @@ function BeamLengthCrud({ index }) {
     useEffect(() => {
         const prevArr = [...beams];
         prevArr[index].l = inputValue;
-        setBeams(prevArr)
+        setBeams(prevArr);
+        // eslint-disable-next-line
     }, [inputValue]);
 
     const onEditClick = () => {

@@ -1,135 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BeamsContext from '../myContext/BeamsContext'
 
-const myBeams = [
-    {
-        name: "beam1",
-        material: "concrete",
-        steelProperty: {
-
-        },
-        id: 1,
-        b: 30,
-        h: 80,
-        l: 3,
-        onEdit: false,
-        supports: {
-            pinSupports: [
-                { name: "beam1s1", position: 0, reactionY: 0, reactionX: 0 },
-            ],
-            rollerSupports: [
-                { name: "beam1s2", position: 2.5, reactionY: 0 },
-            ],
-            fixedSupports: [
-
-            ],
-        },
-        loads: {
-            pointLoads: [
-                { name: "beam1load1", position: 1, value: -5 },
-            ],
-            distributedLoads: [
-                { name: "beam1load2", position1: 0, position2: 1, value1: -10, value2: -10 },
-            ],
-        },
-    },
-    {
-        name: "beam2",
-        material: "concrete",
-        steelProperty: {
-
-        },
-        id: 2,
-        b: 20,
-        h: 40,
-        l: 5,
-        onEdit: false,
-        supports: {
-            pinSupports: [
-                { name: "beam2s1", position: 1, reactionY: 0, reactionX: 0 },
-            ],
-            rollerSupports: [
-                { name: "beam2s2", position: 4, reactionY: 0 },
-            ],
-            fixedSupports: [
-
-            ],
-        },
-        loads: {
-            pointLoads: [
-                { name: "beam2load1", position: 3, value: -5 },
-            ],
-            distributedLoads: [
-                { name: "beam2load2", position1: 0, position2: 5, value1: -5, value2: -15 },
-            ],
-        },
-    },
-    {
-        name: "beam3",
-        material: "concrete",
-        steelProperty: {
-
-        },
-        id: 3,
-        b: 30,
-        h: 60,
-        l: 4,
-        onEdit: false,
-        supports: {
-            pinSupports: [
-
-            ],
-            rollerSupports: [
-
-            ],
-            fixedSupports: [
-                { name: "beam3s1", position: 4, reactionY: 0, reactionX: 0, reactionM: 0 },
-            ],
-        },
-        loads: {
-            pointLoads: [
-                { name: "beam3load1", position: 2, value: -5 },
-            ],
-            distributedLoads: [
-                { name: "beam3load2", position1: 1, position2: 4, value1: -3, value2: -3 },
-            ],
-        },
-    },
-    {
-        name: "beam4",
-        material: "concrete",
-        steelProperty: {
-
-        },
-        id: 4,
-        b: 30,
-        h: 60,
-        l: 5,
-        onEdit: false,
-        supports: {
-            pinSupports: [
-                { name: "beam4s1", position: 0, reactionY: 0, reactionX: 0 },
-            ],
-            rollerSupports: [
-                { name: "beam4s2", position: 5, reactionY: 0 },
-            ],
-            fixedSupports: [
-
-            ],
-        },
-        loads: {
-            pointLoads: [
-                { name: "beam4load1", position: 2, value: -5 },
-            ],
-            distributedLoads: [
-                { name: "beam4load2", position1: 0, position2: 5, value1: -3, value2: -3 },
-            ],
-        },
-    },
-]
-
 const BeamProvider = ({ children }) => {
-    const [beams, setBeams] = useState(myBeams);
+    const [beams, setBeams] = useState([]);
+
+    useEffect(() => {
+        if(localStorage.getItem("beams")){
+            setBeams(JSON.parse(localStorage.getItem("beams")));
+        }
+    },[]);
+    useEffect(() => {
+        localStorage.setItem("beams", JSON.stringify(beams));
+    },[beams]);
 
     // ------------------------------------------------------------
     //Beam Handlers:

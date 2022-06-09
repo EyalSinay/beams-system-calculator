@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import BeamsContext from '../../../myContext/BeamsContext';
 import ButtonIcon from '../../buttons/ButtonIcon';
-import DeleteMassage from '../../messages/DeleteMassage';
 
 function CreatePinSupport({ type, beamIndex, onCancel }) {
   const { beams, setBeams, validChecks } = useContext(BeamsContext);
@@ -24,13 +23,13 @@ function CreatePinSupport({ type, beamIndex, onCancel }) {
       const prevBeams = [...beams];
       if(type === "rollerSupports"){
       prevBeams[beamIndex].supports[type].push({
-        name: parseInt(nameInputValue),
+        name: nameInputValue,
         position: parseInt(positionInputValue),
         reactionY: 0
       });
     } else if (type === "pinSupports"){
       prevBeams[beamIndex].supports[type].push({
-        name: parseInt(nameInputValue),
+        name: nameInputValue,
         position: parseInt(positionInputValue),
         reactionY: 0,
         reactionX: 0

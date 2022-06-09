@@ -33,7 +33,7 @@ function BeamLink({ beam, onEditClick, onConfirmClick, onCancelClick, onDeleteCl
                 <ButtonIcon type="enter" />
             </NavLink>
         </div>
-    )
+    );
 }
 
 export default BeamLink
