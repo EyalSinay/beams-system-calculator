@@ -1,0 +1,48 @@
+.nav-container {
+    background-color: var(--color2);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.links-container {
+    display: flex;
+    justify-content: center;
+}
+
+.nav-link {
+    color: aliceblue;
+    font-size: 20px;
+    padding: 8px 20px;
+    border-radius: 8px;
+    transition: 0.5s;
+}
+
+.nav-link:hover {
+    background-color: var(--color1);
+    color: var(--color2);
+}
+.nav-link[data-allowed="false"]:hover {
+    background-color: rgba(255, 0, 0, 0.30);
+    color: aliceblue;
+    cursor: not-allowed;
+}
+
+.btn-menu {
+    width: 30px;
+    height: 30px;
+    padding: 5px 20px;
+}
+.btn-menu svg {
+    fill:aliceblue
+}
+.btn-menu:hover {
+    cursor: pointer;
+}
+.btn-menu svg:hover {
+    fill: #063970;
+}
+
+.about-contact-container{
+    display: flex;
+    justify-content: flex-end;
+}

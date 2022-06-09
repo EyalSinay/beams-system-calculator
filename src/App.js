@@ -1,22 +1,24 @@
 import './App.css';
 import './components/css/buttons.style.css';
 import { Route } from 'react-router-dom';
-import Header from './components/Header.jsx'
+import NavBar from './components/NavBar.jsx'
 import Menu from './components/Menu.jsx'
 import Main from './components/Main/Main.jsx'
 import BeamPage from './components/BeamPage/BeamPage'
 import BeamProvider from './Provider/BeamProvider';
-import Footer from './components/Footer';
+// import Footer from './components/Footer';
 
 function App() {
   return (
     <div className="App">
       <BeamProvider>
-        <Header />
-        <Menu />
-        <Route path="/" exact component={Main} />
-        <Route path="/:name" component={BeamPage} />
-        <Footer />
+        <NavBar />
+        <div className='main-container-and-menu'>
+          <Menu />
+          <Route path="/" exact component={Main} />
+          <Route path="/:name" component={BeamPage} />
+        </div>
+        {/* <Footer /> */}
       </BeamProvider>
     </div>
 

@@ -16,6 +16,12 @@ const BeamPage = (props) => {
     const containerRef = useRef("");
     const [containerWidth, SetContainerWidth] = useState(0);
 
+    // useEffect(() => {
+    //     if (localStorage.getItem("beams")) {
+    //         setBeams(JSON.parse(localStorage.getItem("beams")));
+    //     }
+    // }, []);
+
     useEffect(() => {
         SetContainerWidth(containerRef.current.getBoundingClientRect().width)
     }, [containerWidth]);

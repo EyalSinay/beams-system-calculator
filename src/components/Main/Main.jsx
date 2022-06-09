@@ -46,7 +46,9 @@ function Main() {
           onCancelClick={cancelAddBeam}
           onConfirmClick={confirmAddNewBeam}
           modifyStatus="add" />}
-      {getBeamsLinks()}
+      <div className="links-beams-container">
+        {getBeamsLinks()}
+      </div>
       {alertAfterDeleteMessage !== 0
         && <DeleteMassage
           onBackgroundClick={cancelAlertDeleteMessage}

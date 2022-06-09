@@ -2,12 +2,12 @@
 
 body {
     font-family: 'Cabin', 'Josefin Sans', sans-serif;
+    background-color: var(--color1);
     /* background-color: #063970; */
     /* color: white; */
 }
 
 a{
-    color: #063970;
     text-decoration: none;
     /* background-color: #e28743; */
 }
