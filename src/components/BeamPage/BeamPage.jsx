@@ -16,7 +16,7 @@ const BeamPage = (props) => {
     const [containerWidth, SetContainerWidth] = useState(0);
 
     useEffect(() => {
-        if (containerWidth) {
+        if (containerRef.current) {
             SetContainerWidth(
                 containerRef.current.getBoundingClientRect().width
             );
@@ -27,7 +27,8 @@ const BeamPage = (props) => {
                 );
             };
         }
-    }, [containerWidth]);
+        // eslint-disable-next-line
+    }, [containerRef.current]);
 
     useEffect(() => {
         setCURRENT_INDEX(() => {
