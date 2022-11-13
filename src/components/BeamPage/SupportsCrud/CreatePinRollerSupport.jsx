@@ -57,7 +57,7 @@ function CreatePinSupport({ type, beamIndex, onCancel }) {
         <label htmlFor='name-pin' className='property'>Name: </label>
         <input id='name-pin' className='beam-input' type="text" value={nameInputValue} onChange={onNameChange} />
         <label htmlFor='pos-pin' className='property'>Position: </label>
-        <input id='pos-pin' className='beam-input' type="number" value={positionInputValue} onChange={onPositionChange} />
+        <input /* step="0.1" */ id='pos-pin' className='beam-input' type="number" value={positionInputValue} onChange={onPositionChange} />
       </div>
 
     </div>

@@ -1,7 +1,8 @@
 .nav-container {
     background-color: var(--color2);
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .links-container {

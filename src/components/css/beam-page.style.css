@@ -29,12 +29,12 @@
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
 }
 
-@media (max-width:500px) {
+/* @media (max-width:500px) {
     .beam-details-container {
         padding: 0 20px 0 20px;
         flex-direction: column;
     }
-}
+} */
 
 .supports_loads-container {
     display: flex;
@@ -134,12 +134,12 @@ span.title {
     grid-template-columns: repeat( auto-fit, minmax(100px, 1fr) );
 }
 
-@media (max-width:640px) {
+/* @media (max-width:640px) {
     .create-mode-btn-container {
         display: flex;
         flex-direction: column;
     }
-}
+} */
 
 .create-mode-btn {
     margin: 8px;

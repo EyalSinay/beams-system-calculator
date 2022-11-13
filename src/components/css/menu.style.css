@@ -1,7 +1,4 @@
 .main-container-and-menu{
-    display: grid;
-    grid-template-columns: 1fr 6fr;
-    height: calc(100vh - 80px);
 }
 
 .menu-container{

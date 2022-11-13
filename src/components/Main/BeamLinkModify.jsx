@@ -59,11 +59,11 @@ function BeamLinkModify({ beam, modifyStatus, onConfirmClick, onCancelClick }) {
         <div className='beam-dimensions-container'>
           <div className="beam-dimensions-b-container">
             <label htmlFor="beam-dimensions-b">b: </label>
-            <input type="number" className='beam-dimensions' id="beam-dimensions-b" value={beamDimensionsB} onChange={e => e.target.value < 1 ? 1 : setBeamDimensionsB(e.target.value)} />
+            <input /* step="0.1" */ type="number" className='beam-dimensions' id="beam-dimensions-b" value={beamDimensionsB} onChange={e => e.target.value < 1 ? 1 : setBeamDimensionsB(e.target.value)} />
           </div>
           <div className="beam-dimensions-h-container">
             <label htmlFor="beam-dimensions-h">h: </label>
-            <input type="number" className='beam-dimensions' id="beam-dimensions-h" value={beamDimensionsH} onChange={e => e.target.value < 1 ? 1 : setBeamDimensionsH(e.target.value)} />
+            <input /* step="0.1" */ type="number" className='beam-dimensions' id="beam-dimensions-h" value={beamDimensionsH} onChange={e => e.target.value < 1 ? 1 : setBeamDimensionsH(e.target.value)} />
           </div>
         </div>
       </div>
@@ -168,7 +168,7 @@ function BeamLinkModify({ beam, modifyStatus, onConfirmClick, onCancelClick }) {
       <div className='modify-valid-message'>{validMessage}</div>
       <div className="beam-length-container">
         <label htmlFor="beam-length">Beam Length:</label>
-        <input type="number" id="beam-length" value={beamLength} onChange={onLengthChange} />
+        <input /* step="0.1" */ type="number" id="beam-length" value={beamLength} onChange={onLengthChange} />
       </div>
       <div className="material-container">
         <label htmlFor="material">Material:</label>

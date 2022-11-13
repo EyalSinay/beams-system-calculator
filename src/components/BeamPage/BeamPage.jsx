@@ -1,35 +1,42 @@
-import '../css/beam-page.style.css'
+import "../css/beam-page.style.css";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Beam from "../BeamComponents/Beam/Beam";
 // import Shear from "../BeamComponents/Shear/Shear";
 import BeamsContext from "../../myContext/BeamsContext";
 // import getSupportReactions from "../../services/getSupportReactions";
-import BeamDetails from './BeamDetails';
-import SupportsCrud from './SupportsCrud/SupportsCrud';
-import LoadsCrud from './LoadsCrud/LoadsCrud';
-import BeamLengthCrud from './BeamLengthCrud';
-
+import BeamDetails from "./BeamDetails";
+import SupportsCrud from "./SupportsCrud/SupportsCrud";
+import LoadsCrud from "./LoadsCrud/LoadsCrud";
+import BeamLengthCrud from "./BeamLengthCrud";
 
 const BeamPage = (props) => {
     const { beams } = useContext(BeamsContext);
     const [CURRENT_INDEX, setCURRENT_INDEX] = useState(0);
-    const containerRef = useRef("");
+    const containerRef = useRef();
     const [containerWidth, SetContainerWidth] = useState(0);
 
     useEffect(() => {
-        SetContainerWidth(containerRef.current.getBoundingClientRect().width)
-    }, [containerWidth]);
+        if (containerWidth) {
+            SetContainerWidth(
+                containerRef.current.getBoundingClientRect().width
+            );
 
-    window.onresize = () => {
-        SetContainerWidth(containerRef.current.getBoundingClientRect().width);
-    }
+            window.onresize = () => {
+                SetContainerWidth(
+                    containerRef.current.getBoundingClientRect().width
+                );
+            };
+        }
+    }, [containerWidth]);
 
     useEffect(() => {
         setCURRENT_INDEX(() => {
-            return beams.findIndex(beam => beam.name === props.match.params.name);
+            return beams.findIndex(
+                (beam) => beam.name === window.location.pathname.substring(1)
+            );
         });
         // eslint-disable-next-line
-    }, [CURRENT_INDEX]);
+    }, [CURRENT_INDEX, beams]);
 
     // useEffect(() => {
     //     setBeams(prev => {
@@ -46,6 +53,8 @@ const BeamPage = (props) => {
     // eslint-disable-next-line
     // }, []);
 
+    if (beams.length === 0 || CURRENT_INDEX < 0) return <div>Wait</div>;
+
     return (
         <div ref={containerRef} className="beam-page-container">
             <BeamDetails beam={beams[CURRENT_INDEX]} />
@@ -55,11 +64,15 @@ const BeamPage = (props) => {
                 <LoadsCrud index={CURRENT_INDEX} />
             </div>
             <br />
-            <Beam data={beams[CURRENT_INDEX]} WSvg={containerWidth} HSvg={400} />
+            <Beam
+                data={beams[CURRENT_INDEX]}
+                WSvg={containerWidth}
+                HSvg={400}
+            />
             <br />
             {/* <Shear data={beams[CURRENT_INDEX]} WSvg={containerWidth} HSvg={400} /> */}
         </div>
     );
-}
+};
 
 export default BeamPage;

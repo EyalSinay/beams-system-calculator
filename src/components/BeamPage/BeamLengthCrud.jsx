@@ -34,7 +34,7 @@ function BeamLengthCrud({ index }) {
             {
                 editMode
                     ?
-                    <input className='beam-input' type="number" value={inputValue} onChange={onLengthChang} />
+                    <input /* step="0.1" */ className='beam-input' type="number" value={inputValue} onChange={onLengthChang} />
                     :
                     <span className='length-beam-text'>{beams[index].l}</span>
             }

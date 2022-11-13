@@ -81,9 +81,9 @@ function PointLoadsDetails({ details, beamIndex, loadIndex }) {
             <label htmlFor='name-point' className='property'>Name: </label>
             <input id='name-point' className='beam-input' type="text" value={nameInputValue} onChange={onNameChange} />
             <label htmlFor='pos-point' className='property'>Position: </label>
-            <input id='pos-point' className='beam-input' type="number" value={positionInputValue} onChange={onPositionChange} />
+            <input /* step="0.1" */ id='pos-point' className='beam-input' type="number" value={positionInputValue} onChange={onPositionChange} />
             <label htmlFor='val-point' className='property'>Value: </label>
-            <input id='val-point' className='beam-input' type="number" value={valueInputValue} onChange={e => setValueInputValue(e.target.value)} />
+            <input /* step="0.1" */ id='val-point' className='beam-input' type="number" value={valueInputValue} onChange={e => setValueInputValue(e.target.value)} />
           </div>
           :
           <div className='beam-crud-container'>

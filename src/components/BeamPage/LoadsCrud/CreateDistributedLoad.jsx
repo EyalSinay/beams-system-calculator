@@ -60,13 +60,13 @@ function CreateDistributedLoad({ beamIndex, onCancel }) {
         <label htmlFor='name-dis' className='property'>Name: </label>
         <input className='beam-input' id='name-dis' type="text" value={nameInputValue} onChange={onNameChange} />
         <label htmlFor='start-pos-dis' className='property'>Start: </label>
-        <input className='beam-input' id='start-pos-dis' type="number" value={position1InputValue} onChange={onPosition1Change} />
+        <input /* step="0.1" */ className='beam-input' id='start-pos-dis' type="number" value={position1InputValue} onChange={onPosition1Change} />
         <label htmlFor='end-pos-dis' className='property'>End: </label>
-        <input className='beam-input' id='end-pos-dis' type="number" value={position2InputValue} onChange={onPosition2Change} />
+        <input /* step="0.1" */ className='beam-input' id='end-pos-dis' type="number" value={position2InputValue} onChange={onPosition2Change} />
         <label htmlFor='start-val-dis' className='property'>Start Value: </label>
-        <input className='beam-input' id='start-val-dis' type="number" value={value1InputValue} onChange={e => setValue1InputValue(e.target.value)} />
+        <input /* step="0.1" */ className='beam-input' id='start-val-dis' type="number" value={value1InputValue} onChange={e => setValue1InputValue(e.target.value)} />
         <label htmlFor='end-val-dis' className='property'>End Value: </label>
-        <input className='beam-input' id='end-val-dis' type="number" value={value2InputValue} onChange={e => setValue2InputValue(e.target.value)} />
+        <input /* step="0.1" */ className='beam-input' id='end-val-dis' type="number" value={value2InputValue} onChange={e => setValue2InputValue(e.target.value)} />
       </div>
 
     </div>
