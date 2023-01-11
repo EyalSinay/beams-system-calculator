@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 import BeamsContext from "../myContext/BeamsContext";
 
+// ! fix this page!
 function NavBar() {
     const { beams } = useContext(BeamsContext);
     // const [CURRENT_INDEX, setCURRENT_INDEX] = useState(-1);
