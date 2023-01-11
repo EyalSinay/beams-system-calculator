@@ -21,11 +21,15 @@ const BeamPage = (props) => {
                 containerRef.current.getBoundingClientRect().width
             );
 
-            window.onresize = () => {
+            const onResizeFunc = () => {
                 SetContainerWidth(
                     containerRef.current.getBoundingClientRect().width
                 );
             };
+
+            window.addEventListener("resize", onResizeFunc);
+
+            return () => window.removeEventListener("resize", onResizeFunc);
         }
         // eslint-disable-next-line
     }, [containerRef.current]);
@@ -33,7 +37,9 @@ const BeamPage = (props) => {
     useEffect(() => {
         setCURRENT_INDEX(() => {
             return beams.findIndex(
-                (beam) => beam.name === window.location.pathname.substring(1)
+                (beam) =>
+                    beam.name ===
+                    decodeURI(window.location.pathname.substring(1))
             );
         });
         // eslint-disable-next-line
